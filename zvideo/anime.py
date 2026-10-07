@@ -132,6 +132,9 @@ def ref_prompt(clip, p, chars, style, audio="copy"):
 
     kinds = ["keyframe completion"] + (["audio reuse"] if has_audio else [])
     summary = f"[{' + '.join(kinds)}] The target video starts from <Picture 1>. {clip.summary.format(**fmt)}"
+    if not clip.cast:
+        # 人物のいないカットでも、書かないと H3 は人を足して描くことがある
+        summary += " No people appear anywhere in the target video; the place stays empty throughout."
     if has_audio:
         summary += (" <Audio 1> is reused unchanged as the complete dialogue, and each character's lips move only"
                     " while her own line in <Audio 1> is heard; everyone else keeps her mouth closed.")

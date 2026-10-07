@@ -101,3 +101,14 @@ def test_ref_prompt_rejects_a_character_with_no_picture():
     c = Clip("c1", cast=["kiri", "zunko"], in_key=["kiri"], key_desc="x", shots=[Shot("x", dur=2.0)])
     with pytest.raises(ValueError):
         ref_prompt(c, plan(c, []), CHARS, style="Anime.")
+
+
+def test_ref_prompt_states_that_nobody_appears_when_the_cast_is_empty():
+    c = Clip("c1", cast=[], key_desc="a window", summary="Snow falls.", shots=[Shot("a static shot", dur=3.0)])
+    text = ref_prompt(c, plan(c, []), CHARS, style="Anime.")
+    assert "No people appear anywhere in the target video" in text
+
+
+def test_ref_prompt_does_not_add_the_empty_room_note_when_someone_appears():
+    c = Clip("c1", cast=["kiri"], key_desc="x", shots=[Shot("a shot", dur=2.0)])
+    assert "No people appear" not in ref_prompt(c, plan(c, []), CHARS, style="Anime.")
