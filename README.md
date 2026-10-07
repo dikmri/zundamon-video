@@ -2,9 +2,9 @@
 
 **Claude Code に「〇〇を解説するずんだもん動画を作って」と頼むだけで、ずんだもんと四国めたんが掛け合いで解説する動画（1920×1080・mp4）ができる**、ツールキットと Claude Code スキルです。
 
-[![紹介動画（クリックで再生）](docs/promo.gif)](https://github.com/dikmri/zundamon-video/releases/download/v0.1.0/zundamon-video-promo.mp4)
+https://github.com/user-attachments/assets/e7759eb5-3d91-4942-9117-5ce9f255db7c
 
-▶ **[紹介動画を見る（2分15秒）](https://github.com/dikmri/zundamon-video/releases/download/v0.1.0/zundamon-video-promo.mp4)** — この紹介動画も、このスキルで作りました。
+▲ 紹介動画（2分15秒・音声あり）。この動画も、このスキルで作りました。フル HD 版は [こちら（38MB）](https://github.com/dikmri/zundamon-video/releases/download/v0.1.0/zundamon-video-promo.mp4)。
 
 ## できること
 
