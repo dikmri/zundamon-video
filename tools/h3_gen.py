@@ -39,6 +39,7 @@ def main(argv=None):
         ap.add_argument("--" + key.replace("_", "-"), default=H3_DEFAULTS[key])
     ap.add_argument("--lora-strength", type=float, default=0.6)
     ap.add_argument("--keep-server", action="store_true")
+    ap.add_argument("--no-free", action="store_true", help="終了時にモデルを降ろさない（続けて生成するとき）")
     a = ap.parse_args(argv)
 
     prompt = Path(a.prompt_file).read_text(encoding="utf-8").strip()
@@ -65,7 +66,8 @@ def main(argv=None):
             s.result = {"out": str(dest), "sec": round(time.time() - t0, 1)}
         print("video:", dest)
     finally:
-        api.free()
+        if not a.no_free:
+            api.free()
         if pid and not a.keep_server:
             stop_portable(pid)
 
