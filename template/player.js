@@ -119,6 +119,13 @@
         el.style.borderRadius = '6px';
         break;
       case 'stamp': el.style.transform = `scale(${1 + 0.8 * (1 - e)}) rotate(${(1 - e) * -8}deg)`; break;
+      case 'kenburns': { // 写真をゆっくり寄せる（.kb の枠の中の img に付ける）。data-dir で寄る方向、data-dur で秒数
+        const dur = s.dur || 12;
+        const q = clamp((t - t0) / dur);
+        const [dx, dy] = ({ left: [1, 0], right: [-1, 0], up: [0, 1], down: [0, -1] })[el.dataset.dir] || [0, 0];
+        el.style.transform = `scale(${1.02 + 0.1 * q}) translate(${dx * 2.5 * q}%, ${dy * 2.5 * q}%)`;
+        break;
+      }
       default: el.style.transform = `translateY(${(1 - e) * 36}px)`;
     }
   }

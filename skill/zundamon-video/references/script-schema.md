@@ -152,6 +152,7 @@
 | `.credits`（dl） | クレジット表 |
 | `.ending` | エンディングの中央寄せ（`h2` が縁取りの大見出し） |
 | `.icon` `.icon-l` `.icon-xl` | アイコンの大きさ（1.1em / 72px / 120px） |
+| `.kb` | 写真の枠（角丸・白枠・影、はみ出しを隠す）。中の `img` は枠いっぱいに切り抜いて表示し、`kenburns` で動かせる |
 
 その動画だけの部品は `projects/<名前>/style.css` に書く。ボードは `word-break: auto-phrase` で日本語を文節単位で折り返す。
 
@@ -169,6 +170,9 @@
 | `mark` | 常に見えていて、時刻が来ると蛍光ペンが引かれる（文中の `span` に使う） |
 | `count` | 0 から `data-to` まで数える（`data-decimals` で小数桁、`data-dur` で秒） |
 | `type` | テキストを打ち込む（`data-dur` で秒。中身はプレーンテキストのみ） |
+| `kenburns` | 写真をゆっくり寄せる（Ken Burns）。`.kb` の枠の中の `img` に付ける。`data-dir`（left / right / up / down）で寄る方向、`data-dur` で秒数（既定 12） |
+
+写真を何枚も見せる回（キャラクター紹介、作品紹介など）は、`<div class="kb" data-step="1" data-anim="pop"><img src="..." data-step="1" data-anim="kenburns"></div>` の形で、枠ごと出してから中の写真をゆっくり動かすと、静止画でも単調にならない。1枚ずつ大きく見せたいときは、同じ位置に `position:absolute` で重ねた枠を段階ごとに `fade` で差し替える。
 
 入れ子にもできる（外側の `pop` と内側の数字の `count` に同じ step を付けるなど）。
 
