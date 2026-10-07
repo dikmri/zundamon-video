@@ -75,7 +75,8 @@ def aggregate_cast(videos):
             a["seconds"] = round(a["seconds"] + c["stats"]["seconds"], 2)
             a["chars"] += c["stats"]["chars"]
             a["videos"] += 1
-            a["portrait"] = c.get("portrait")
+            # 立ち絵のない動画が後に来ても、既にある立ち絵を消さない
+            a["portrait"] = c.get("portrait") or a.get("portrait")
             a["_texts"] += [ln["text"] for ln in v["lines"] if ln["who"] == key]
     for a in cast.values():
         a["ending"] = top_ending(a.pop("_texts"))

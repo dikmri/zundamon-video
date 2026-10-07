@@ -300,7 +300,8 @@
     const card = (k, i) => {
       const c = cast[k];
       const p = c.portrait || {};
-      const en = { zundamon: 'Zundamon', metan: 'Shikoku Metan' }[k] || k;
+      const en = { zundamon: 'Zundamon', metan: 'Shikoku Metan', zunko: 'Tohoku Zunko', kiritan: 'Tohoku Kiritan',
+                   itako: 'Tohoku Itako' }[k] || k;
       return `
       <article class="voice voice-${h(k)}" style="--vc:${c.color}" data-who="${h(k)}">
         <div class="voice-stage">

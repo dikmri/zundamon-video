@@ -186,7 +186,7 @@ def build_video(name, force=False):
         with step("portal.video.build", {"name": name}, file=PORTAL_LOG) as s:
             info = probe(mp4)
             info["date"] = datetime.fromtimestamp(mp4.stat().st_mtime).isoformat(timespec="seconds")
-            grab(mp4, poster_time(data["scenes"]), dest / "poster.jpg", 1280)
+            grab(mp4, poster_time(data["scenes"], data["meta"].get("poster_at")), dest / "poster.jpg", 1280)
             digest(mp4, preview_times(toc, info["duration"]), 1.6, dest / "preview.mp4")
             sprite(mp4, plan, dest / "sprite.jpg")
             for i, e in enumerate(toc):

@@ -148,3 +148,15 @@ def test_public_catalog_adds_hls_playlist_when_published_with_hls():
     assert v["video"]["hls"] == "data/a/video.m3u8?v=v1"
     plain = public_catalog(cat, {"a": {"asset": "a.mp4", "version": "v1"}}, "o", "r", "videos")["videos"][0]
     assert "hls" not in plain["video"]
+
+
+def _video(key, portrait):
+    return {"cast": {key: {"name": key, "color": "#000", "portrait": portrait,
+                           "stats": {"lines": 1, "seconds": 1.0, "chars": 3}}},
+            "lines": [{"who": key, "text": "なのだ"}]}
+
+
+def test_aggregate_cast_keeps_a_portrait_when_a_later_video_has_none():
+    cast = aggregate_cast([_video("zundamon", {"idle": "a.webp"}), _video("zundamon", None)])
+    assert cast["zundamon"]["portrait"] == {"idle": "a.webp"}
+    assert cast["zundamon"]["videos"] == 2

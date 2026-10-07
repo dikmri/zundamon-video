@@ -183,3 +183,8 @@ def test_asset_url_is_relative_to_the_portal_page(tmp_path):
 def test_asset_url_percent_encodes_spaces_and_non_ascii(tmp_path):
     url = asset_url(tmp_path / "out" / "my video" / "動画.mp4", tmp_path / "portal", "1")
     assert url == "../out/my%20video/%E5%8B%95%E7%94%BB.mp4?v=1"
+
+
+def test_poster_time_can_be_set_explicitly():
+    scenes = [scene("opening", 0.3, 10.1, layout="title"), scene("x", 10.1, 80.0, title="a")]
+    assert poster_time(scenes, at=56.5) == pytest.approx(56.5)

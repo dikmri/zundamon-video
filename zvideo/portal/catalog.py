@@ -214,8 +214,10 @@ def speaker_stats(lines):
     return st
 
 
-def poster_time(scenes):
-    """サムネイルに使う時刻。タイトルの登場アニメーションが終わったころ。"""
+def poster_time(scenes, at=None):
+    """サムネイルに使う時刻。タイトルの登場アニメーションが終わったころ。at（data.js の meta.poster_at）が優先。"""
+    if at is not None:
+        return round(float(at), 2)
     if not scenes:
         return 0.0
     first = scenes[0]
