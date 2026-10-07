@@ -1,0 +1,211 @@
+{
+  "meta": {
+    "title": "【ずんだもん解説】MiniMax H3で動画を作るのだ！",
+    "series": "ずんだもんのAIツール解説",
+    "fps": 30,
+    "bgm": "assets/bgm/maou_loop_bgm_acoustic50.mp3",
+    "bgm_volume": 0.11,
+    "se_volume": 0.4,
+    "timing": {
+      "lead_in": 0.3,
+      "scene_lead": 0.5,
+      "gap": 0.25,
+      "scene_tail": 0.7,
+      "outro": 2.5
+    },
+    "reading": {
+      "MiniMax H3": "ミニマックス・エイチスリー",
+      "MiniMax": "ミニマックス",
+      "H3": "エイチスリー",
+      "Hailuo": "ハイルオ",
+      "Hugging Face": "ハギングフェイス",
+      "ComfyUI": "コンフィーユーアイ",
+      "API": "エーピーアイ",
+      "AI": "エーアイ",
+      "BGM": "ビージーエム",
+      "2K": "ツーケー",
+      "7000": "ななせん",
+      "Web": "ウェブ"
+    }
+  },
+  "cast": {
+    "metan": {
+      "character": "metan",
+      "position": "left",
+      "speed": 1.15
+    },
+    "zundamon": {
+      "character": "zundamon",
+      "position": "right",
+      "speed": 1.2
+    }
+  },
+  "scenes": [
+    {
+      "id": "opening",
+      "hide_header": true,
+      "se": "title",
+      "board": {"layout": "title", "badge": "ずんだもん解説", "heading_html": "<span class=\"accent\">MiniMax H3</span><br>で動画を作るのだ！", "sub": "文章・画像・音声から「声つき動画」を作る最新AI", "enter": "zoom"},
+      "lines": [
+        {"who": "zundamon", "text": "ずんだもんなのだ！今日は話題の**動画生成AI**を紹介するのだ！", "face": "excited", "motion": "jump", "pose": "raise"},
+        {"who": "metan", "text": "四国めたんよ。MiniMaxの新しいモデル、**MiniMax H3**のことね。", "face": "happy", "pose": "present"},
+        {"who": "zundamon", "text": "そうなのだ！文章を書くだけで、声や効果音まで入った動画ができるらしいのだ！", "face": "happy", "eyes": "smile"},
+        {"who": "metan", "text": "今回は、H3で何ができて、どう使えばいいのかを順番に見ていきましょう。"}
+      ]
+    },
+    {
+      "id": "ch1",
+      "hide_header": true,
+      "se": "jean",
+      "flash": true,
+      "board": {"layout": "chapter", "num": "その1", "heading": "MiniMax H3ってなに？"},
+      "lines": [
+        {"who": "zundamon", "text": "まずは、H3の正体からなのだ！", "face": "normal", "pose": "point_up"}
+      ]
+    },
+    {
+      "id": "what",
+      "chapter": "① H3ってなに？",
+      "board": {"title": "MiniMax H3ってなに？", "html_file": "boards/what.html"},
+      "lines": [
+        {"who": "metan", "text": "H3は、中国のAI企業MiniMaxが作った動画生成モデルよ。", "step": 1},
+        {"who": "metan", "text": "発表されたのは、2026年7月31日ね。"},
+        {"who": "zundamon", "text": "MiniMaxって、どこかで聞いたことがあるのだ。", "face": "think", "pose": "think"},
+        {"who": "metan", "text": "動画AIの「Hailuo」シリーズで知られている会社ね。"},
+        {"who": "zundamon", "text": "なるほどなのだ。それで、H3は何がすごいのだ？"},
+        {"who": "metan", "text": "一番の特徴は、**オムニモーダル**であること。", "step": 2, "se": "pop", "face": "smug"},
+        {"who": "metan", "text": "文章・画像・動画・音声を、ひとつのモデルでまとめて理解できるの。"},
+        {"who": "zundamon", "text": "全部まとめて読み込めるのだ！？", "face": "surprised", "motion": "jump", "pose": "mouth"},
+        {"who": "metan", "text": "そう。だから「この写真の人物が、この声で話す動画」みたいな注文ができるのよ。", "step": 3}
+      ]
+    },
+    {
+      "id": "spec",
+      "chapter": "② スペック",
+      "board": {"title": "H3のスペック", "html_file": "boards/spec.html"},
+      "lines": [
+        {"who": "metan", "text": "次はスペックを見てみましょう。"},
+        {"who": "metan", "text": "解像度は最大**2K**。", "step": 1, "se": "pop"},
+        {"who": "metan", "text": "1回の生成で作れる長さは、最大**15秒**よ。", "step": 2, "se": "pop"},
+        {"who": "zundamon", "text": "ショート動画なら、これだけで1本できちゃうのだ！", "face": "happy", "pose": "point"},
+        {"who": "metan", "text": "そして注目なのが音。映像と一緒に、**ステレオの音声**も同時に作られるの。", "step": 3, "se": "pop"},
+        {"who": "zundamon", "text": "えっ、セリフも効果音も、あとから付けなくていいのだ？", "face": "surprised", "motion": "jump", "pose": "mouth"},
+        {"who": "metan", "text": "ええ。セリフ、効果音、環境音までまとめて出てくるわ。"},
+        {"who": "metan", "text": "プロンプトも、APIなら最大7000文字まで書けるわ。", "step": 4, "se": "pop"},
+        {"who": "metan", "text": "細かい演出まで、しっかり指示できるわね。"}
+      ]
+    },
+    {
+      "id": "ch2",
+      "hide_header": true,
+      "se": "jean",
+      "flash": true,
+      "board": {"layout": "chapter", "num": "その2", "heading": "3つの作り方"},
+      "lines": [
+        {"who": "zundamon", "text": "H3では、どうやって動画を作るのだ？", "face": "think", "pose": "think"}
+      ]
+    },
+    {
+      "id": "modes",
+      "chapter": "③ 作り方",
+      "board": {"title": "H3の3つの作り方", "html_file": "boards/modes.html"},
+      "lines": [
+        {"who": "metan", "text": "大きく分けて、3つの作り方があるわ。", "pose": "present"},
+        {"who": "metan", "text": "1つ目は、文章だけで作る方法。映像も音も、ゼロから組み立ててくれるの。", "step": 1, "se": "pop"},
+        {"who": "metan", "text": "2つ目は、画像から作る方法。最初のコマや最後のコマを、画像で指定できるわ。", "step": 2, "se": "pop"},
+        {"who": "zundamon", "text": "最初と最後を決めたら、その間をつないでくれるのだ？", "face": "think", "pose": "think"},
+        {"who": "metan", "text": "その通り。登場人物の見た目をそろえたいときにも便利ね。"},
+        {"who": "metan", "text": "3つ目は参照生成。お手本になる素材を渡して作る方法よ。", "step": 3, "se": "pop"},
+        {"who": "metan", "text": "画像は9枚まで、動画と音声はそれぞれ3本まで渡せるの。"},
+        {"who": "zundamon", "text": "ボクの写真とボクの声を渡せば、ボクが主役の動画も作れちゃうのだ！", "face": "smug", "motion": "lean", "pose": "fold"},
+        {"who": "metan", "text": "ふふ、まさにそういう使い方ができるのが、H3の強みね。", "face": "happy"}
+      ]
+    },
+    {
+      "id": "ch3",
+      "hide_header": true,
+      "se": "jean",
+      "flash": true,
+      "board": {"layout": "chapter", "num": "その3", "heading": "プロンプトのコツ"},
+      "lines": [
+        {"who": "zundamon", "text": "でも、プロンプトってどう書けばいいのだ？", "face": "tired", "pose": "side"}
+      ]
+    },
+    {
+      "id": "prompt",
+      "chapter": "④ プロンプトのコツ",
+      "board": {"title": "プロンプトは3つに分けて書く", "html_file": "boards/prompt.html"},
+      "lines": [
+        {"who": "metan", "text": "H3向けには、内容を3つの項目に分けて書くと伝わりやすいわ。"},
+        {"who": "metan", "text": "1つ目は、映像とセリフの流れ。ショットごとに、時間の順番で書いていくの。", "step": 1, "se": "pop"},
+        {"who": "metan", "text": "2つ目は環境音。足音や雨の音など、その場で鳴っている音ね。", "step": 2, "se": "pop"},
+        {"who": "metan", "text": "3つ目がBGM。登場人物には聞こえない、視聴者向けの音楽よ。", "step": 3, "se": "pop"},
+        {"who": "zundamon", "text": "音を種類ごとに分けて書くのがポイントなのだ。", "face": "normal", "motion": "nod", "pose": "point"},
+        {"who": "metan", "text": "カメラワークは、動きの種類と大きさ、速さの3つをセットで書くといいわ。", "step": 4, "se": "pop"}
+      ]
+    },
+    {
+      "id": "example",
+      "chapter": "④ プロンプトのコツ",
+      "board": {"title": "例：ずんだ餅を食べるショート動画", "html_file": "boards/example.html"},
+      "lines": [
+        {"who": "zundamon", "text": "じゃあ、ボクがずんだ餅を食べる動画を考えてみるのだ！", "face": "happy", "eyes": "smile", "motion": "jump", "pose": "raise"},
+        {"who": "metan", "text": "いいわね。まずは、映像とセリフを時間の順番に書くわ。", "step": 1},
+        {"who": "metan", "text": "セリフは話す人に番号をつけて、言葉そのものはタグの中に入れるの。", "step": 2},
+        {"who": "zundamon", "text": "日本語のセリフも、そのまま書けばいいのだ？", "face": "think", "pose": "think"},
+        {"who": "metan", "text": "ええ。言語を指定すれば、日本語のまま書いて大丈夫よ。"},
+        {"who": "metan", "text": "続けて、環境音。", "step": 3},
+        {"who": "metan", "text": "最後に、BGMを書けば完成よ。", "step": 4},
+        {"who": "zundamon", "text": "お祭りの音もBGMも付いた動画になるのだ！楽しみなのだ！", "face": "excited", "motion": "jump", "pose": "raise"}
+      ]
+    },
+    {
+      "id": "ch4",
+      "hide_header": true,
+      "se": "jean",
+      "flash": true,
+      "board": {"layout": "chapter", "num": "その4", "heading": "使い方と料金"},
+      "lines": [
+        {"who": "zundamon", "text": "H3は、どこで使えるのだ？", "face": "think", "pose": "point_up"}
+      ]
+    },
+    {
+      "id": "use",
+      "chapter": "⑤ 使い方と料金",
+      "board": {"title": "どこで使える？いくらかかる？", "html_file": "boards/use.html"},
+      "lines": [
+        {"who": "metan", "text": "手軽に試すなら、HailuoのアプリやWebサイトね。", "step": 1, "se": "pop"},
+        {"who": "metan", "text": "プログラムから使うなら、APIね。", "step": 2, "se": "pop"},
+        {"who": "metan", "text": "タスクを作って、完成を待ってから動画をダウンロードする流れよ。"},
+        {"who": "zundamon", "text": "注文して、できあがるのを待つ感じなのだ。", "face": "normal", "pose": "point"},
+        {"who": "metan", "text": "気になる料金は、公式発表によると……", "step": 3, "se": "pop"},
+        {"who": "metan", "text": "2Kでも1秒あたりの価格が、主流モデルの3分の1未満だそうよ。"},
+        {"who": "zundamon", "text": "安いのは助かるのだ！ボクのお小遣いでも作れるかもしれないのだ。", "face": "cry", "pose": "mouth"},
+        {"who": "metan", "text": "さらに8月3日には、モデルのウェイトもHugging Faceで公開されたわ。", "step": 4, "se": "pop"},
+        {"who": "metan", "text": "ただし、ライセンスには地域などの条件があるから、使う前に必ず確認してね。", "step": 5, "face": "think", "pose": "think"},
+        {"who": "zundamon", "text": "ちゃんと規約を読むのが大事なのだ。", "face": "normal", "motion": "nod", "pose": "fold"}
+      ]
+    },
+    {
+      "id": "summary",
+      "chapter": "まとめ",
+      "board": {"layout": "bullets", "title": "まとめ", "items": [{"text": "文章・画像・動画・音声をまとめて扱う動画AI"}, {"text": "最大2K・15秒。声や効果音も**同時に生成**"}, {"text": "作り方は「テキスト」「画像」「参照」の3通り"}, {"text": "プロンプトは「映像とセリフ」「環境音」「BGM」に分ける"}]},
+      "lines": [
+        {"who": "metan", "text": "最後に、まとめるわね。"},
+        {"who": "zundamon", "text": "H3は、文章・画像・動画・音声をまとめて扱える動画生成AIなのだ。", "step": 1, "se": "pop", "pose": "point"},
+        {"who": "metan", "text": "最大2Kで15秒、声や効果音まで一度に作れるわ。", "step": 2, "se": "pop"},
+        {"who": "zundamon", "text": "作り方は、テキスト、画像、参照の3通りなのだ。", "step": 3, "se": "pop", "pose": "point"},
+        {"who": "metan", "text": "プロンプトは、映像とセリフ、環境音、BGMに分けて書くのがコツよ。", "step": 4, "se": "pop"}
+      ]
+    },
+    {
+      "id": "ending",
+      "hide_header": true,
+      "board": {"html_file": "boards/ending.html"},
+      "lines": [
+        {"who": "zundamon", "text": "今日はここまでなのだ！ご視聴ありがとうなのだ！", "face": "happy", "eyes": "smile", "motion": "jump", "se": "chanchan", "pose": "raise"},
+        {"who": "metan", "text": "気に入ったら、高評価とチャンネル登録もよろしくね。", "face": "happy", "pose": "present"}
+      ]
+    }
+  ]
+}

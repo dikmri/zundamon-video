@@ -1,0 +1,7 @@
+For the target video, at 0.00 seconds into the target video, <Picture 1> (from [Shot 1]) is fully referenced.
+
+integrated_multimodal_description: [Shot 1] 2D-animated, anime style with clean line art and soft indoor lighting. The girl shown in <Picture 1>, with dark brown twin-tails, red eyes, silver blade-shaped hair ornaments, a white kimono-style top with a black collar and a dark red obi, keeps both arms raised in the same room, preserving her appearance and clothing. The camera holds a static shot as she bounces happily on her toes and waves her raised hands, and the cheerful young girl with a clear, gentle voice (S1) says: <d>[Japanese] やったー、勝ちました！</d> Small golden sparkles twinkle around her.
+
+overall_soundscape: Quiet room tone with the soft rustle of her sleeves and a light tap of her feet on the floor.
+
+non_diegetic_music: A short bright fanfare on glockenspiel and pizzicato strings at a lively tempo.

@@ -1,0 +1,22 @@
+[project]
+name = "zundamon-video"
+version = "0.1.0"
+description = "ずんだもん（＋四国めたん）の掛け合い解説動画を、台本 JSON から HTML で組んで mp4 に書き出すツールキットと Claude Code スキル"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=2.5.3",
+    "pillow>=12.3.0",
+    "playwright>=1.63.0",
+    "psd-tools>=1.24.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

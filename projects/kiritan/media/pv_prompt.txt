@@ -1,0 +1,7 @@
+For the target video, at 0.00 seconds into the target video, <Picture 1> (from [Shot 1]) is fully referenced.
+
+integrated_multimodal_description: [Shot 1] 2D-animated, anime style with clean line art and warm lantern lighting. The girl shown in <Picture 1>, with dark brown twin-tails, red eyes, silver blade-shaped hair ornaments, a white kimono-style top with a black collar and a dark red obi, stays on the same lantern-lit festival path, preserving her appearance, clothing, the grilled rice skewer in her hand and the food stalls behind her. The camera pushes in with small amplitude at slow speed. She lifts the skewer to her mouth, takes a small bite and chews happily with her eyes closing in delight, then looks back toward the camera, and the cheerful young girl with a clear, gentle voice (S1) says: <d>[Japanese] きりたんぽ、おいしいです！</d> Autumn leaves drift down behind her as the paper lanterns sway softly.
+
+overall_soundscape: Lively festival chatter and footsteps fill the background, with charcoal grilling sizzling at the stalls and taiko drums in the distance. A soft crunch accompanies her bite.
+
+non_diegetic_music: A light festival melody on shamisen and bamboo flute at a moderate tempo, gently fading out at the end.

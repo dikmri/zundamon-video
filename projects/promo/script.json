@@ -1,0 +1,115 @@
+{
+  "meta": {
+    "title": "【ずんだもん解説】頼むだけで解説動画ができるスキル zundamon-video",
+    "series": "zundamon-video の紹介",
+    "fps": 30,
+    "bgm": "assets/bgm/maou_loop_bgm_acoustic50.mp3",
+    "bgm_volume": 0.11,
+    "se_volume": 0.4,
+    "timing": {"lead_in": 0.3, "scene_lead": 0.5, "gap": 0.25, "scene_tail": 0.7, "outro": 2.5},
+    "reading": {
+      "zundamon-video": "ずんだもん・ビデオ",
+      "Claude Code": "クロード・コード",
+      "Claude": "クロード",
+      "VOICEVOX": "ボイスボックス",
+      "HTML": "エイチティーエムエル",
+      "JSON": "ジェイソン",
+      "Playwright": "プレイライト",
+      "ffmpeg": "エフエフエムペグ",
+      "mp4": "エムピーフォー",
+      "GitHub": "ギットハブ",
+      "MiniMax H3": "ミニマックス・エイチスリー",
+      "PV": "ピーブイ",
+      "BGM": "ビージーエム",
+      "AI": "エーアイ",
+      "HD": "エイチディー"
+    }
+  },
+  "cast": {
+    "metan": {"character": "metan", "position": "left", "speed": 1.15},
+    "zundamon": {"character": "zundamon", "position": "right", "speed": 1.2}
+  },
+  "scenes": [
+    {
+      "id": "opening", "hide_header": true, "se": "title",
+      "board": {"layout": "title", "badge": "Claude Code スキル", "enter": "zoom",
+                "heading_html": "<span class=\"accent\" style=\"font-size:88px; white-space:nowrap\">zundamon-video</span><br><span style=\"font-size:84px\">頼むだけで解説動画！</span>",
+                "sub": "ずんだもん解説動画を、調査から書き出しまで"},
+      "lines": [
+        {"who": "zundamon", "text": "ずんだもんなのだ！実はこの動画、AIが全部作ったのだ！", "face": "surprised", "pose": "mouth", "motion": "jump"},
+        {"who": "metan", "text": "四国めたんよ。今日は、この動画を作ったスキルを紹介するわ。", "face": "happy", "pose": "present"}
+      ]
+    },
+    {
+      "id": "ask", "chapter": "① 使い方",
+      "board": {"title": "Claude Code に一言たのむだけ", "html_file": "boards/ask.html"},
+      "lines": [
+        {"who": "metan", "text": "使い方は簡単。Claude Codeに、作りたい動画を一言たのむだけよ。", "step": 1},
+        {"who": "zundamon", "text": "それだけなのだ！？", "face": "surprised", "pose": "mouth", "pause": 0.1},
+        {"who": "metan", "text": "調査、台本、音声、画面の確認まで、全部やってくれるの。", "step": 2, "se": "pop"},
+        {"who": "metan", "text": "できあがるのは、フルHDのmp4。そのまま投稿できるわ。", "step": 3, "se": "jajean"},
+        {"who": "zundamon", "text": "ボクは、しゃべるだけでいいのだ！", "face": "smug", "pose": "fold"}
+      ]
+    },
+    {
+      "id": "features", "chapter": "② できること",
+      "board": {"title": "こんなことが自動でできる", "html_file": "boards/features.html"},
+      "lines": [
+        {"who": "metan", "text": "声はVOICEVOX。ずんだもんと四国めたんの声で話すわ。", "step": 1, "se": "pop"},
+        {"who": "zundamon", "text": "立ち絵は、口パクもまばたきもするのだ！", "step": 2, "se": "pop", "face": "happy", "eyes": "smile", "pose": "raise", "motion": "jump"},
+        {"who": "metan", "text": "説明の図はHTMLで作るから、セリフに合わせて1つずつ出せるの。", "step": 3, "se": "pop"},
+        {"who": "zundamon", "text": "字幕もBGMも効果音も、自動で入るのだ。", "step": 4, "se": "pop", "pose": "point"},
+        {"who": "metan", "text": "AIで生成した画像や動画も、そのまま埋め込めるわ。", "step": 5, "se": "pop"},
+        {"who": "zundamon", "text": "5分の動画でも、書き出しは5分くらいなのだ！", "step": 6, "se": "pop", "face": "excited", "pose": "point_up"}
+      ]
+    },
+    {
+      "id": "examples", "chapter": "③ 作例",
+      "board": {"title": "実際に作った動画", "html_file": "boards/examples.html"},
+      "lines": [
+        {"who": "metan", "text": "実際に作った動画を見てみましょう。まずは、MiniMax H3の解説よ。", "step": 1, "se": "pop"},
+        {"who": "zundamon", "text": "こっちは、きりたんのアニメPVを作る解説なのだ！", "step": 2, "se": "pop", "pose": "point"},
+        {"who": "metan", "text": "どちらも、このスキルで作った動画そのものよ。", "step": 3},
+        {"who": "zundamon", "text": "数字がポンッと出たり、絵が並んだり、見ていて楽しいのだ。", "face": "happy"}
+      ]
+    },
+    {
+      "id": "cheer", "chapter": "③ 作例",
+      "board": {"title": "AI の作例も入れられる", "html_file": "boards/cheer.html"},
+      "lines": [
+        {"who": "zundamon", "text": "画像生成の絵を、こんなふうに声つきの動画にもできるのだ！", "step": 1, "pause": 4.0, "face": "excited", "pose": "point"},
+        {"who": "metan", "text": "ふふ、きりたんも嬉しそうね。", "face": "happy"}
+      ]
+    },
+    {
+      "id": "pipeline", "chapter": "④ 仕組み",
+      "board": {"title": "動画ができるまで", "html_file": "boards/pipeline.html"},
+      "lines": [
+        {"who": "metan", "text": "仕組みも見ておきましょう。台本は、JSONで書くわ。", "step": 1, "se": "pop"},
+        {"who": "metan", "text": "セリフをVOICEVOXでしゃべらせて、口パクの時刻を計算するの。", "step": 2, "se": "pop"},
+        {"who": "metan", "text": "画面はHTMLで作って、Playwrightで1コマずつ撮影するわ。", "step": 3, "se": "pop"},
+        {"who": "metan", "text": "最後にffmpegで、音声と合わせてmp4にするの。", "step": 4, "se": "pop"},
+        {"who": "zundamon", "text": "だから、何度書き出しても同じ動画になるのだ！", "step": 5, "se": "pop", "face": "smug", "pose": "fold"}
+      ]
+    },
+    {
+      "id": "start", "chapter": "⑤ はじめ方",
+      "board": {"title": "はじめ方は5ステップ", "html_file": "boards/start.html"},
+      "lines": [
+        {"who": "metan", "text": "まずは、GitHubからリポジトリをクローンするわ。", "step": 1, "se": "pop"},
+        {"who": "metan", "text": "セットアップのコマンドで、声やBGMの素材が自動でそろうの。", "step": 2, "se": "pop"},
+        {"who": "metan", "text": "立ち絵だけは、配布ページの規約に同意して、自分で取ってきてね。", "step": 3, "se": "pop", "face": "think", "pose": "think"},
+        {"who": "metan", "text": "スキルを入れたら、あとはClaudeにたのむだけよ。", "step": 4, "se": "pop"},
+        {"who": "zundamon", "text": "「〇〇を解説するずんだもん動画を作って」で、できあがりなのだ！", "step": 5, "se": "pop", "face": "excited", "pose": "raise"}
+      ]
+    },
+    {
+      "id": "ending", "hide_header": true,
+      "board": {"html_file": "boards/ending.html"},
+      "lines": [
+        {"who": "zundamon", "text": "GitHubで公開中なのだ！ぜひ使ってほしいのだ！", "face": "happy", "eyes": "smile", "pose": "raise", "motion": "jump", "se": "chanchan"},
+        {"who": "metan", "text": "見てくれてありがとう。あなたの動画も、楽しみにしているわ。", "face": "happy", "pose": "present"}
+      ]
+    }
+  ]
+}

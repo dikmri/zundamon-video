@@ -1,0 +1,231 @@
+{
+  "meta": {
+    "title": "【ずんだもん解説】WAI-AnimaとMiniMax H3で、きりたんのアニメPVを作るのだ！",
+    "series": "ずんだもんのAIツール解説",
+    "fps": 30,
+    "bgm": "assets/bgm/maou_loop_bgm_acoustic50.mp3",
+    "bgm_volume": 0.11,
+    "se_volume": 0.4,
+    "timing": {"lead_in": 0.3, "scene_lead": 0.5, "gap": 0.25, "scene_tail": 0.7, "outro": 2.5},
+    "reading": {
+      "MiniMax H3": "ミニマックス・エイチスリー",
+      "MiniMax": "ミニマックス",
+      "H3": "エイチスリー",
+      "WAI-Anima": "ワイ・アニマ",
+      "Anima": "アニマ",
+      "ComfyUI": "コンフィー・ユーアイ",
+      "Comfy-Org": "コンフィー・オーグ",
+      "Civitai": "シビタイ",
+      "GitHub": "ギットハブ",
+      "7-Zip": "セブンジップ",
+      "run_nvidia_gpu.bat": "ラン・エヌビディア・ジーピーユー・バット",
+      "RTX 5060 Ti": "アールティーエックス・ごーまるろくまる・ティーアイ",
+      "RTX 50": "アールティーエックス・ごじゅう",
+      "NVIDIA": "エヌビディア",
+      "VRAM": "ブイラム",
+      "VAE": "ブイエーイー",
+      "LoRA": "ローラ",
+      "CFG": "シーエフジー",
+      "safe": "セーフ",
+      "tohoku kiritan": "トウホク・キリタン",
+      "PV": "ピーブイ",
+      "480p": "よんひゃくはちじゅうピー",
+      "16GB": "じゅうろくギガ",
+      "64GB": "ろくじゅうよんギガ",
+      "50GB": "ごじゅうギガ",
+      "45GB": "よんじゅうごギガ",
+      "21GB": "にじゅういちギガ",
+      "GB": "ギガ",
+      "AI": "エーアイ"
+    }
+  },
+  "cast": {
+    "metan": {"character": "metan", "position": "left", "speed": 1.15},
+    "zundamon": {"character": "zundamon", "position": "right", "speed": 1.2}
+  },
+  "scenes": [
+    {
+      "id": "opening", "hide_header": true, "se": "title",
+      "board": {"layout": "title", "badge": "ずんだもん解説", "enter": "zoom",
+                "heading_html": "<span class=\"accent\">WAI-Anima×H3</span><br><span style=\"font-size:84px\">でアニメPVを作るのだ！</span>",
+                "sub": "環境構築から動画まで、ぜんぶ自分のPCで"},
+      "lines": [
+        {"who": "zundamon", "text": "ずんだもんなのだ！今日は、自分のパソコンでアニメ作りに挑戦するのだ！", "face": "excited", "pose": "raise", "motion": "jump"},
+        {"who": "metan", "text": "四国めたんよ。絵はWAI-Anima、動画はMiniMax H3で作るのね。", "face": "happy", "pose": "present"},
+        {"who": "zundamon", "text": "きりたんに「わたしのPVを作ってください」って頼まれたのだ！", "face": "happy", "eyes": "smile"},
+        {"who": "metan", "text": "いいわね。環境構築から、順番にやっていきましょう。"}
+      ]
+    },
+    {
+      "id": "flow", "chapter": "全体の流れ",
+      "board": {"title": "作業は3ステップ", "html_file": "boards/flow.html"},
+      "lines": [
+        {"who": "metan", "text": "まずは、AIを動かすアプリのComfyUIを入れるわ。", "step": 1, "se": "pop"},
+        {"who": "metan", "text": "次に、WAI-Animaで、きりたんの絵を描く。", "step": 2, "se": "pop"},
+        {"who": "metan", "text": "最後に、MiniMax H3で、その絵を動かすの。", "step": 3, "se": "pop"},
+        {"who": "zundamon", "text": "しかも全部、自分のパソコンの中でできるのだ？", "face": "think", "pose": "think", "step": 4},
+        {"who": "metan", "text": "そう。ネットに画像を送らずに作れるのが、ローカル生成のいいところね。"}
+      ]
+    },
+    {
+      "id": "ch1", "hide_header": true, "se": "jean", "flash": true,
+      "board": {"layout": "chapter", "num": "その1", "heading": "準備と環境構築"},
+      "lines": [
+        {"who": "zundamon", "text": "まずは、何を用意すればいいのだ？", "face": "think", "pose": "think"}
+      ]
+    },
+    {
+      "id": "needs", "chapter": "① 準備",
+      "board": {"title": "必要なもの", "html_file": "boards/needs.html"},
+      "lines": [
+        {"who": "metan", "text": "動画まで作るなら、VRAM16GBのNVIDIA製GPUが目安よ。", "step": 1, "se": "pop"},
+        {"who": "zundamon", "text": "ボクのパソコンは、RTX 5060 Tiの16GBなのだ！", "face": "smug", "pose": "fold"},
+        {"who": "metan", "text": "ちょうどいいわね。ストレージは、モデルだけで約50GB使うわ。", "step": 2, "se": "pop"},
+        {"who": "metan", "text": "アプリはComfyUI。AIの部品を、線でつないで動かす道具よ。", "step": 3, "se": "pop"},
+        {"who": "metan", "text": "メインメモリも多いほど安心ね。このパソコンは64GBよ。", "step": 4, "se": "pop"},
+        {"who": "zundamon", "text": "GPUに入りきらない分は、メモリに逃がしてくれるのだ。", "motion": "nod"}
+      ]
+    },
+    {
+      "id": "comfy", "chapter": "① 準備",
+      "board": {"title": "ComfyUI の入れ方", "html_file": "boards/comfy.html"},
+      "lines": [
+        {"who": "metan", "text": "ComfyUIの入れ方は、とても簡単よ。"},
+        {"who": "metan", "text": "GitHubから、Windows用のポータブル版をダウンロードして……", "step": 1, "se": "pop"},
+        {"who": "metan", "text": "7-Zipで展開したら……", "step": 2, "se": "pop"},
+        {"who": "metan", "text": "run_nvidia_gpu.batをダブルクリック。ブラウザに画面が開くわ。", "step": 3, "se": "pop"},
+        {"who": "zundamon", "text": "インストール作業が、ほとんどないのだ！", "face": "excited", "pose": "raise"},
+        {"who": "metan", "text": "モデルは、modelsフォルダの中の決まった場所に置くの。", "step": 4, "se": "pop"},
+        {"who": "metan", "text": "置き場所を間違えると読み込めないから、注意してね。", "face": "think", "pose": "think"}
+      ]
+    },
+    {
+      "id": "ch2", "hide_header": true, "se": "jean", "flash": true,
+      "board": {"layout": "chapter", "num": "その2", "heading": "WAI-Animaで絵を描く"},
+      "lines": [
+        {"who": "zundamon", "text": "いよいよ、きりたんを描くのだ！", "face": "excited", "pose": "raise", "motion": "jump"}
+      ]
+    },
+    {
+      "id": "wai", "chapter": "② 画像生成",
+      "board": {"title": "WAI-Anima を入れる", "html_file": "boards/wai.html"},
+      "lines": [
+        {"who": "metan", "text": "WAI-Animaは、アニメ絵が得意なAnimaを、さらに鍛えたモデルよ。", "step": 1, "se": "pop"},
+        {"who": "metan", "text": "配布元のCivitaiは、ダウンロードにログインが必要ね。"},
+        {"who": "metan", "text": "本体、文章を読む部品、VAEの3つを、それぞれのフォルダに置くわ。", "step": 2, "se": "pop"},
+        {"who": "zundamon", "text": "3つそろわないと、動かないのだ？", "face": "think"},
+        {"who": "metan", "text": "そう。どれか1つでも欠けると、エラーになるわ。", "step": 3, "se": "pop"}
+      ]
+    },
+    {
+      "id": "prompt", "chapter": "② 画像生成",
+      "board": {"title": "プロンプトはタグを順番に並べる", "html_file": "boards/prompt.html"},
+      "lines": [
+        {"who": "metan", "text": "指示は、タグを並べて書くの。順番が大事よ。", "step": 1, "se": "pop"},
+        {"who": "metan", "text": "品質、年齢区分、キャラ名、作品名、そのあとに内容ね。", "step": 2},
+        {"who": "metan", "text": "年齢区分はsafe。全年齢向けの絵にするための指定よ。", "step": 3, "se": "pop"},
+        {"who": "zundamon", "text": "キャラ名は「tohoku kiritan」で通じるのだ？", "face": "think", "pose": "think"},
+        {"who": "metan", "text": "ええ。有名なキャラなら、名前だけでもかなり再現できるわ。"},
+        {"who": "metan", "text": "設定は28ステップ、CFG4.5。サイズは動画に合わせて横長よ。", "step": 4, "se": "pop"}
+      ]
+    },
+    {
+      "id": "results", "chapter": "② 画像生成",
+      "board": {"title": "生成した絵", "html_file": "boards/results.html"},
+      "lines": [
+        {"who": "metan", "text": "実際に生成した結果が、こちらよ。", "step": 1, "se": "jajean"},
+        {"who": "zundamon", "text": "きりたんぽを持ったきりたんなのだ！かわいいのだ！", "face": "excited", "pose": "raise", "motion": "jump"},
+        {"who": "metan", "text": "ゲームに集中する場面と、勝って喜ぶ場面も作ってみたわ。", "step": 2, "se": "pop"},
+        {"who": "zundamon", "text": "1枚あたり、どのくらいかかったのだ？", "face": "think"},
+        {"who": "metan", "text": "このパソコンだと、1枚およそ20秒ね。", "step": 3, "se": "pop"},
+        {"who": "zundamon", "text": "はやいのだ！何枚でも試せちゃうのだ。", "face": "happy", "eyes": "smile"}
+      ]
+    },
+    {
+      "id": "ch3", "hide_header": true, "se": "jean", "flash": true,
+      "board": {"layout": "chapter", "num": "その3", "heading": "MiniMax H3で動かす"},
+      "lines": [
+        {"who": "zundamon", "text": "次は、この絵を動かすのだ！", "face": "excited", "pose": "point_up"}
+      ]
+    },
+    {
+      "id": "h3install", "chapter": "③ 動画生成",
+      "board": {"title": "MiniMax H3 を入れる", "html_file": "boards/h3install.html"},
+      "lines": [
+        {"who": "metan", "text": "H3は、ComfyUI用にまとめられたファイルを使うと楽よ。"},
+        {"who": "metan", "text": "本体は約21GB。画像と文章から動画を作る版を選ぶわ。", "step": 1, "se": "pop"},
+        {"who": "metan", "text": "文章を理解する部品は、RTX 50シリーズ向けの軽い版ね。", "step": 2, "se": "pop"},
+        {"who": "metan", "text": "VAEは映像用と音声用の2つ。H3は、音も一緒に作るからね。", "step": 3, "se": "pop"},
+        {"who": "metan", "text": "それと、少ないステップで仕上げる高速化LoRAも入れておくわ。", "step": 4, "se": "pop"},
+        {"who": "zundamon", "text": "全部で45GBくらいあるのだ……ダウンロードが大変なのだ。", "face": "tired", "pose": "down", "step": 5}
+      ]
+    },
+    {
+      "id": "h3setting", "chapter": "③ 動画生成",
+      "board": {"title": "今回の設定", "html_file": "boards/h3setting.html"},
+      "lines": [
+        {"who": "metan", "text": "今回は、さっきの絵を最初のコマにして動かすわ。", "step": 1, "se": "pop"},
+        {"who": "metan", "text": "解像度は480p、長さは約5秒、10ステップで生成したの。", "step": 2, "se": "pop"},
+        {"who": "zundamon", "text": "時間は、どのくらいかかったのだ？", "face": "think", "pose": "think"},
+        {"who": "metan", "text": "1本およそ4分。モデルの読み込みも含めた時間よ。", "step": 3, "se": "pop"}
+      ]
+    },
+    {
+      "id": "h3prompt", "chapter": "③ 動画生成",
+      "board": {"title": "H3 のプロンプト", "html_file": "boards/h3prompt.html"},
+      "lines": [
+        {"who": "metan", "text": "プロンプトは英語で、時間の流れに沿って書くの。", "step": 1},
+        {"who": "metan", "text": "最初の行で「1枚目の画像から始める」と指定するのがポイントよ。", "step": 2, "se": "pop"},
+        {"who": "metan", "text": "セリフは、日本語のまま書けば声になるわ。", "step": 3, "se": "pop"},
+        {"who": "metan", "text": "あとは、環境音とBGMを分けて書けば完成ね。", "step": 4},
+        {"who": "zundamon", "text": "きりたんがしゃべるのだ！？楽しみなのだ！", "face": "surprised", "pose": "mouth"}
+      ]
+    },
+    {
+      "id": "clip", "chapter": "③ 動画生成",
+      "board": {"html_file": "boards/clip.html"},
+      "lines": [
+        {"who": "metan", "text": "それじゃあ、完成した動画を見てみましょう。", "step": 1, "pause": 6.1},
+        {"who": "zundamon", "text": "動いたのだ！声も音楽も、ちゃんと入ってるのだ！", "face": "excited", "pose": "raise", "motion": "jump"},
+        {"who": "metan", "text": "1枚の絵から、ここまで作れるのよ。", "face": "happy"}
+      ]
+    },
+    {
+      "id": "caution", "chapter": "④ 注意点",
+      "board": {"title": "守ること・コツ", "html_file": "boards/caution.html"},
+      "lines": [
+        {"who": "metan", "text": "最後に、注意点を3つ。"},
+        {"who": "metan", "text": "WAI-Animaは、モデル自体は非商用。生成した画像は使えるわ。", "step": 1, "se": "pop"},
+        {"who": "metan", "text": "H3の動画を公開するときは、AI生成だと分かるようにしてね。"},
+        {"who": "metan", "text": "きりたんのガイドラインも守って、イメージを損なう使い方はしないこと。", "step": 2, "se": "pop", "face": "think", "pose": "think"},
+        {"who": "metan", "text": "そしてVRAMのコツ。重いアプリを閉じて、短い尺から試すこと。", "step": 3, "se": "pop"},
+        {"who": "zundamon", "text": "約束を守って、楽しく作るのだ！", "face": "happy", "motion": "nod"}
+      ]
+    },
+    {
+      "id": "summary", "chapter": "まとめ",
+      "board": {"layout": "bullets", "title": "まとめ",
+                "items": [
+                  {"text": "ComfyUI を入れて、モデルを決まった場所に置く"},
+                  {"text": "WAI-Anima はタグを順番どおりに並べて描く"},
+                  {"text": "H3 なら、1枚の絵から**声つきの動画**にできる"},
+                  {"text": "規約とガイドラインを守って楽しむ"}
+                ]},
+      "lines": [
+        {"who": "metan", "text": "まとめるわね。"},
+        {"who": "zundamon", "text": "ComfyUIを入れて、モデルを決まった場所に置くのだ。", "step": 1, "se": "pop", "pose": "point"},
+        {"who": "metan", "text": "WAI-Animaは、タグを順番どおりに並べて描くの。", "step": 2, "se": "pop"},
+        {"who": "zundamon", "text": "H3なら、1枚の絵から声つきの動画が作れるのだ。", "step": 3, "se": "pop", "pose": "point"},
+        {"who": "metan", "text": "そして、規約とガイドラインを守って楽しみましょう。", "step": 4, "se": "pop"}
+      ]
+    },
+    {
+      "id": "ending", "hide_header": true,
+      "board": {"html_file": "boards/ending.html"},
+      "lines": [
+        {"who": "zundamon", "text": "今日はここまでなのだ！きりたんにも、喜んでもらえたのだ！", "face": "happy", "eyes": "smile", "pose": "raise", "motion": "jump", "se": "chanchan"},
+        {"who": "metan", "text": "高評価とチャンネル登録も、よろしくね。", "face": "happy", "pose": "present"}
+      ]
+    }
+  ]
+}

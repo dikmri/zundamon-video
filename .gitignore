@@ -1,0 +1,14 @@
+# 実行環境・生成物（サイズまたは再生成できるため含めない）
+runtime/
+out/
+logs/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# 素材（各配布元の規約により再配布しない。`uv run python -m zvideo.setup_env` で取得・生成する）
+assets/fonts/
+assets/bgm/
+assets/se/
+assets/characters/

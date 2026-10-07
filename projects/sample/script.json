@@ -1,0 +1,102 @@
+{
+  "meta": {
+    "title": "テスト",
+    "bgm": "assets/bgm/maou_loop_bgm_acoustic50.mp3",
+    "bgm_volume": 0.1,
+    "reading": {
+      "API": "エーピーアイ"
+    }
+  },
+  "cast": {
+    "metan": {
+      "character": "metan",
+      "position": "left",
+      "speed": 1.15
+    },
+    "zundamon": {
+      "character": "zundamon",
+      "position": "right",
+      "speed": 1.2
+    }
+  },
+  "scenes": [
+    {
+      "hide_header": true,
+      "se": "title",
+      "board": {
+        "layout": "title",
+        "badge": "ずんだもん解説",
+        "heading_html": "<span class=\"accent\">API</span>ってなに？"
+      },
+      "lines": [
+        {
+          "who": "zundamon",
+          "text": "ずんだもんなのだ！今日はAPIを解説するのだ！",
+          "face": "excited",
+          "motion": "jump"
+        },
+        {
+          "who": "metan",
+          "text": "四国めたんよ。よろしくね。"
+        }
+      ]
+    },
+    {
+      "chapter": "① しくみ",
+      "board": {
+        "title": "APIのしくみ",
+        "html": "<div class=\"flow\"><div class=\"card\" data-step=\"1\"><h3>アプリ</h3></div><i data-icon=\"arrow\" class=\"arrow\" data-step=\"2\"></i><div class=\"card blue\" data-step=\"2\"><h3>サーバー</h3></div></div>"
+      },
+      "lines": [
+        {
+          "who": "metan",
+          "text": "アプリが、",
+          "step": 1,
+          "se": "pop"
+        },
+        {
+          "who": "metan",
+          "text": "サーバーに**お願い**を送る窓口がAPIよ。",
+          "step": 2,
+          "se": "pop"
+        },
+        {
+          "who": "zundamon",
+          "text": "お店の注文口みたいなものなのだ！",
+          "face": "happy",
+          "eyes": "smile"
+        }
+      ]
+    },
+    {
+      "hide_header": true,
+      "board": {
+        "layout": "credits",
+        "title": "クレジット",
+        "items": [
+          [
+            "音声",
+            "VOICEVOX:ずんだもん / VOICEVOX:四国めたん"
+          ],
+          [
+            "立ち絵",
+            "坂本アヒル"
+          ],
+          [
+            "音楽",
+            "音楽：魔王魂"
+          ]
+        ]
+      },
+      "lines": [
+        {
+          "who": "zundamon",
+          "text": "ご視聴ありがとうなのだ！",
+          "face": "happy",
+          "motion": "jump",
+          "se": "chanchan"
+        }
+      ]
+    }
+  ]
+}

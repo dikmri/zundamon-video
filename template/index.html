@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<link rel="stylesheet" href="/template/player.css">
+{{EXTRA_CSS}}
+</head>
+<body>
+<div id="viewport">
+  <div id="stage">
+    <div id="bg"></div>
+    <div id="boards"></div>
+    <div id="header"><div id="chapter"></div><div id="series"></div></div>
+    <div id="chars"></div>
+    <div id="subtitle"><div id="subtext"></div></div>
+    <div id="flash"></div>
+  </div>
+</div>
+<div id="controls">
+  <button id="play" type="button">▶ 再生</button>
+  <input id="seek" type="range" min="0" step="0.01" value="0">
+  <span id="time">0:00 / 0:00</span>
+  <audio id="audio" preload="auto"></audio>
+</div>
+<script src="data.js"></script>
+<script src="/template/icons.js"></script>
+<script src="/template/player.js"></script>
+</body>
+</html>

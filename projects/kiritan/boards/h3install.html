@@ -1,0 +1,11 @@
+<div class="rows" style="gap:6px">
+  <div class="prow" data-step="1" data-anim="left"><span class="chip pink" style="font-size:22px">本体</span>
+    <div><b style="font-size:23px">minimax_h3_fl2va_pruned_int8_convrot</b><small>→ diffusion_models（約21GB）画像・文章から動画を作る版</small></div></div>
+  <div class="prow" data-step="2" data-anim="left"><span class="chip pink" style="font-size:22px">文章</span>
+    <div><b style="font-size:23px">qwen3vl_32b_minimax_h3_nvfp4_awq</b><small>→ text_encoders（約15.7GB）RTX 50 シリーズ向けの軽量版</small></div></div>
+  <div class="prow" data-step="3" data-anim="left"><span class="chip pink" style="font-size:22px">VAE</span>
+    <div><b style="font-size:23px">minimax_h3_video_vae_fp16 ／ audio_vae_fp32</b><small>→ vae（約5.2GB＋0.6GB）映像用と音声用の2つ</small></div></div>
+  <div class="prow" data-step="4" data-anim="left"><span class="chip pink" style="font-size:22px">LoRA</span>
+    <div><b style="font-size:23px">4ステップ高速化 LoRA</b><small>→ loras（少ないステップで仕上げるための追加学習）</small></div></div>
+</div>
+<div class="tip" style="justify-content:center; font-size:24px; padding:6px 18px" data-step="5" data-anim="pop"><i data-icon="download"></i>配布：Hugging Face「Comfy-Org/MiniMax-H3」／ ComfyUI は 0.30 以降</div>

@@ -1,0 +1,40 @@
+/* MiniMax H3 解説用のボード部品 */
+.omni { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.omni .inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px; width: 100%; }
+.omni .inputs .chip { justify-content: center; font-size: 32px; padding: 6px 12px 10px; }
+.omni .down { width: 46px; height: 46px; color: var(--zunda); transform: rotate(90deg); }
+.omni .model { width: 100%; text-align: center; font-size: 34px; font-weight: 900; color: #fff; line-height: 1.3;
+  background: linear-gradient(135deg, #2f9a3a, #63b84a); border-radius: 22px; padding: 10px 10px 14px;
+  box-shadow: 0 8px 0 rgba(40, 100, 30, 0.3); }
+.omni .model small { display: block; font-size: 26px; font-weight: 800; color: #e3f7d6; }
+.omni .output { display: flex; align-items: center; gap: 12px; font-size: 38px; font-weight: 900; color: #24521b; }
+
+
+.modes { display: flex; gap: 24px; flex: 1; align-items: stretch; }
+.modes .card { flex: 1; align-items: center; justify-content: center; text-align: center; padding: 26px 18px; gap: 18px; position: relative; }
+.modes .card .icon-l { width: 110px; height: 110px; }
+.modes .card h3 { font-size: 42px; }
+.modes .card p { font-size: 34px; line-height: 1.5; }
+.modes .mnum { position: absolute; left: 16px; top: 10px; font-family: "Dela", sans-serif; font-size: 44px; color: rgba(0,0,0,0.18); }
+.modes .card .icon-l { color: var(--zunda); }
+.modes .card.blue .icon-l { color: var(--blue); }
+.modes .card.pink .icon-l { color: var(--metan); }
+
+.prow { display: flex; gap: 20px; align-items: center; background: #f7fbf3; border-radius: 20px; padding: 8px 20px; border: 3px solid #dcefd0; }
+.prow .chip { font-family: "Dela", sans-serif; font-size: 30px; width: 56px; height: 56px; justify-content: center; padding: 0; flex: none; }
+.prow b { font-size: 36px; font-weight: 900; margin-right: 16px; }
+.prow code { font-family: "Cascadia Mono", Consolas, monospace; font-size: 24px; color: #fff; background: #3c5a3f; padding: 3px 12px 5px; border-radius: 8px; vertical-align: 4px; }
+.prow small { display: block; font-size: 27px; font-weight: 700; color: var(--sub); margin-top: 2px; }
+
+.board .prompt { white-space: normal; font-size: 23px; padding: 18px 24px; }
+.prompt > div + div { margin-top: 12px; }
+.prompt .label { display: inline-block; font-family: "Rounded"; font-weight: 800; font-size: 22px; color: #1f2a22;
+  background: #9bd77f; border-radius: 6px; padding: 0 10px 2px; margin-right: 8px; }
+
+.flow.mini { gap: 8px; margin-top: 6px; }
+.flow.mini .chip { font-size: 25px; padding: 2px 14px 6px; }
+.flow.mini .icon { color: var(--blue); width: 30px; height: 30px; }
+.use .card h3 { font-size: 36px; }
+.use .card p { font-size: 28px; }
+.use .card { padding: 16px 22px; gap: 8px; }
+

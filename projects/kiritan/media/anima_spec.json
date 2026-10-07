@@ -1,0 +1,38 @@
+{
+  "unet": "waiANIMA_v10Base10.safetensors",
+  "text_encoder": "waiANIMA_v10Base10_txt.safetensors",
+  "vae": "qwen_image_vae.safetensors",
+  "steps": 28,
+  "cfg": 4.5,
+  "negative": ["worst quality", "low quality", "score_1", "score_2", "score_3", "artist name", "blurry",
+               "jpeg artifacts", "lowres", "censor", "watermark", "text", "signature", "bad hands", "extra digits",
+               "bad anatomy"],
+  "images": {
+    "key": {
+      "size": [1344, 768], "seed": 26100701,
+      "characters": ["tohoku kiritan"], "series": ["voiceroid"],
+      "tags": ["1girl", "solo", "black hair", "short twintails", "red eyes", "hair ornament", "japanese clothes",
+               "short kimono", "obi", "long sleeves", "fully clothed", "smile", "open mouth", "holding food",
+               "skewer", "food stall", "festival", "paper lantern", "autumn leaves", "evening", "upper body",
+               "looking at viewer", "anime screencap"],
+      "sentence": "A cheerful girl holds a freshly grilled kiritanpo rice skewer at an autumn festival stall in Akita, warm lantern light, wholesome and cute."
+    },
+    "game": {
+      "size": [1344, 768], "seed": 26100702,
+      "characters": ["tohoku kiritan"], "series": ["voiceroid"],
+      "tags": ["1girl", "solo", "black hair", "short twintails", "red eyes", "hair ornament", "japanese clothes",
+               "short kimono", "obi", "long sleeves", "fully clothed", "determined", "holding controller",
+               "game controller", "playing games", "indoors", "room", "monitor", "screen light", "upper body",
+               "anime screencap"],
+      "sentence": "The girl concentrates hard on a video game with a controller in her hands, lit by the glow of the monitor."
+    },
+    "win": {
+      "size": [1344, 768], "seed": 26100703,
+      "characters": ["tohoku kiritan"], "series": ["voiceroid"],
+      "tags": ["1girl", "solo", "black hair", "short twintails", "red eyes", "hair ornament", "japanese clothes",
+               "short kimono", "obi", "long sleeves", "fully clothed", "happy", "arms up", "victory", "sparkle",
+               "indoors", "room", "upper body", "anime screencap"],
+      "sentence": "The girl throws both arms up in celebration after winning the game, beaming with joy."
+    }
+  }
+}
