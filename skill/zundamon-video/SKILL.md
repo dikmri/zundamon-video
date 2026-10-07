@@ -102,6 +102,7 @@ mp4 のパス、尺、使った素材のクレジット、ユーザーが確認�
 
 - **画像（WAI-Anima / Anima 系）**: `uv run python tools/anima_gen.py projects/<名前>/media/anima_spec.json --comfy-root <ポータブル版 ComfyUI>`。`--url`（既定 8190 番）の ComfyUI が応答しなければポータブル版を裏で起動し、spec の各画像を `media/<名前>.png` に保存して、自分で起こしたサーバーだけ止める。レーティングは safe 以外を受け付けず、否定プロンプトへ成人向けタグを必ず足す。
 - **動画（MiniMax H3）**: H3 が入った ComfyUI（0.30 以降）を起動しておき、`uv run python tools/h3_gen.py --image <最初のコマ> --prompt-file <txt> --out <mp4> --seconds 5 --url <ComfyUI の URL>`。モデル名の既定は Hugging Face「Comfy-Org/MiniMax-H3」のファイル名で、違う名前なら `--unet` `--text-encoder` `--lora` などで渡す。MiniMaxH3TurboSampler（カスタムノード）があれば `--turbo-sampler` で声や効果音がきれいになる。プロンプトは「最初のコマの指定 → 映像とセリフ → 環境音 → BGM」の順に英語で書く（セリフは `<d>[Japanese] …</d>` で日本語のまま）。RTX 5060 Ti 16GB で 480p・5 秒が約 4 分（2本目以降はモデルを載せたままなので約 3 分）。何本も続けて作るときは最後の1本以外に `--no-free` を付けると、毎回のモデルの読み直しを省ける。
+- **セリフに口を合わせたアニメ（H3 参照モード）**: ref2va 重み（`minimax_h3_ref2va_pruned_int8_convrot.safetensors`）で、最初のコマの画像と VOICEVOX のセリフ wav を渡すと、その声に口の動きが合った映像になる。`tools/h3_gen.py --ref-image <最初のコマ> [--ref-image <人物の参照>…] --ref-audio <セリフ.wav> --prompt-file <txt>`。1 回の生成（最大 15 秒）の中で `[Shot N] At 00:0X.XXX` によるカット割りもできる（引き→寄り→切り返し）。セリフの並べ方とプロンプト（参照モードの 6 節）は `zvideo.anime` の `plan()` と `ref_prompt()` が作る。H3 が写し直すセリフは原音よりわずかにこもるので、完成品のセリフは VOICEVOX の原音を使い、効果音だけ H3 の音を使うとよい。
 - 画像生成と H3 は同じ GPU を奪い合うので、順番に動かす（どちらのツールも、自分で起こした ComfyUI は終わると止める）。
 - 作例の内容は全年齢に限る。とくに子どもの設定のキャラクター（東北きりたん等）は、服装・しぐさ・構図まで健全なものだけを作り、出力は1枚ずつ目で確認してから使う。
 

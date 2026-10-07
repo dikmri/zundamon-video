@@ -192,11 +192,11 @@ def h3_canvas(aspect, megapixels):
     return max(32, round(rw * scale / 32) * 32), max(32, round(rh * scale / 32) * 32)
 
 
-def h3_graph(prompt, first_frame, seconds, seed, unet, text_encoder, video_vae, audio_vae,
-             lora=None, lora_strength=0.6, steps=10, sampler="er_sde", turbo_sampler=False,
-             aspect="16:9", megapixels=0.4, prefix="video/zvideo_h3"):
-    """画像（任意）とプロンプトから、声・効果音つきの動画を作る H3 のグラフ（fl2va 重み）。"""
-    width, height = h3_canvas(aspect, megapixels)
+H3_REF_UNET = "minimax_h3_ref2va_pruned_int8_convrot.safetensors"
+H3_MAX_REF_IMAGES = 9
+
+
+def _h3_loaders(unet, text_encoder, video_vae, audio_vae, lora, lora_strength):
     g = {
         "1": {"class_type": "UNETLoader", "inputs": {"unet_name": unet, "weight_dtype": "default"}},
         "4": {"class_type": "CLIPLoader", "inputs": {"clip_name": text_encoder, "type": "minimax",
@@ -209,12 +209,11 @@ def h3_graph(prompt, first_frame, seconds, seed, unet, text_encoder, video_vae, 
         g["2"] = {"class_type": "LoraLoaderModelOnly",
                   "inputs": {"model": model, "lora_name": lora, "strength_model": lora_strength}}
         model = ["2", 0]
-    cond = {"clip": ["4", 0], "vae": ["5", 0], "prompt": prompt, "width": width, "height": height,
-            "length": h3_frames(seconds)}
-    if first_frame:
-        g["20"] = {"class_type": "LoadImage", "inputs": {"image": first_frame}}
-        cond["first_frame"] = ["20", 0]
-    g["10"] = {"class_type": "MiniMaxH3ImageToVideo", "inputs": cond}
+    return g, model
+
+
+def _h3_sample_and_save(g, model, steps, sampler, turbo_sampler, seed, prefix, audio=None):
+    """条件付け（ノード "10"）をサンプリングして保存する。audio を渡せば生成音の代わりにそれを載せる。"""
     # Turbo サンプラー（カスタムノード）は映像と音声を別の速さで進める。無ければ標準の er_sde
     g["11"] = ({"class_type": "MiniMaxH3TurboSampler", "inputs": {}} if turbo_sampler
                else {"class_type": "KSamplerSelect", "inputs": {"sampler_name": sampler}})
@@ -226,9 +225,67 @@ def h3_graph(prompt, first_frame, seconds, seed, unet, text_encoder, video_vae, 
         "noise": ["13", 0], "guider": ["14", 0], "sampler": ["11", 0], "sigmas": ["12", 0],
         "latent_image": ["10", 1]}}
     g["16"] = {"class_type": "VAEDecode", "inputs": {"samples": ["15", 0], "vae": ["5", 0]}}
-    g["17"] = {"class_type": "VAEDecodeAudio", "inputs": {"samples": ["15", 0], "vae": ["6", 0]}}
+    if audio is None:
+        g["17"] = {"class_type": "VAEDecodeAudio", "inputs": {"samples": ["15", 0], "vae": ["6", 0]}}
+        audio = ["17", 0]
     g["18"] = {"class_type": "CreateVideo", "inputs": {"images": ["16", 0], "fps": H3_FPS,
-                                                       "audio": ["17", 0], "bit_depth": 8}}
+                                                       "audio": audio, "bit_depth": 8}}
     g["19"] = {"class_type": "SaveVideo", "inputs": {"video": ["18", 0], "filename_prefix": prefix,
                                                      "format": "auto", "codec": "auto"}}
     return g
+
+
+def h3_graph(prompt, first_frame, seconds, seed, unet, text_encoder, video_vae, audio_vae,
+             lora=None, lora_strength=0.6, steps=10, sampler="er_sde", turbo_sampler=False,
+             aspect="16:9", megapixels=0.4, prefix="video/zvideo_h3"):
+    """画像（任意）とプロンプトから、声・効果音つきの動画を作る H3 のグラフ（fl2va 重み）。"""
+    width, height = h3_canvas(aspect, megapixels)
+    g, model = _h3_loaders(unet, text_encoder, video_vae, audio_vae, lora, lora_strength)
+    cond = {"clip": ["4", 0], "vae": ["5", 0], "prompt": prompt, "width": width, "height": height,
+            "length": h3_frames(seconds)}
+    if first_frame:
+        g["20"] = {"class_type": "LoadImage", "inputs": {"image": first_frame}}
+        cond["first_frame"] = ["20", 0]
+    g["10"] = {"class_type": "MiniMaxH3ImageToVideo", "inputs": cond}
+    return _h3_sample_and_save(g, model, steps, sampler, turbo_sampler, seed, prefix)
+
+
+def h3_ref_graph(prompt, ref_images, ref_audio, seconds, seed, unet, text_encoder, video_vae, audio_vae,
+                 lora=None, lora_strength=0.6, steps=10, sampler="er_sde", turbo_sampler=False,
+                 aspect="16:9", megapixels=0.4, audio_source="generated", audio_start=0.0,
+                 ref_image_size="match", prefix="video/zvideo_h3ref"):
+    """参照画像（最大9枚）と参照音声から動画を作る H3 のグラフ（ref2va 重み）。
+
+    プロンプトでは画像を <Picture N>、音声を <Audio 1> として本文から指す。
+    audio_source="reference" は参照音声を加工せずそのまま動画に載せる（声の劣化がない）。
+    "generated" は H3 が作った音（参照音声の写し＋効果音など）を載せる。
+    """
+    ref_images = list(ref_images or [])
+    if not ref_images and not ref_audio:
+        raise ValueError("ref2va には参照画像か参照音声が少なくとも1つ要る")
+    if len(ref_images) > H3_MAX_REF_IMAGES:
+        raise ValueError(f"参照画像は {H3_MAX_REF_IMAGES} 枚まで: {len(ref_images)}")
+    if audio_source not in ("generated", "reference"):
+        raise ValueError(f"audio_source は generated か reference: {audio_source!r}")
+    if audio_source == "reference" and not ref_audio:
+        raise ValueError("audio_source='reference' には参照音声が要る")
+    width, height = h3_canvas(aspect, megapixels)
+    frames = h3_frames(seconds)
+    g, model = _h3_loaders(unet, text_encoder, video_vae, audio_vae, lora, lora_strength)
+    cond = {"clip": ["4", 0], "vae": ["5", 0], "audio_vae": ["6", 0], "prompt": prompt, "width": width,
+            "height": height, "length": frames, "ref_image_size": ref_image_size}
+    for i, name in enumerate(ref_images):
+        g[str(30 + i)] = {"class_type": "LoadImage", "inputs": {"image": name}}
+        # Autogrow 入力は "<グループ>.<接頭辞><番号>" というドット付きの名前で受ける
+        cond[f"ref_images.ref_image_{i}"] = [str(30 + i), 0]
+    trimmed = None
+    if ref_audio:
+        g["40"] = {"class_type": "LoadAudio", "inputs": {"audio": ref_audio}}
+        # 生成尺ちょうどに切る。長い音声を渡すと、映像にない区間まで条件付けに混ざる
+        g["41"] = {"class_type": "TrimAudioDuration", "inputs": {"audio": ["40", 0], "start_index": audio_start,
+                                                                 "duration": frames / H3_FPS}}
+        trimmed = ["41", 0]
+        cond["ref_audios.ref_audio_0"] = trimmed
+    g["10"] = {"class_type": "MiniMaxH3ReferenceToVideo", "inputs": cond}
+    return _h3_sample_and_save(g, model, steps, sampler, turbo_sampler, seed, prefix,
+                               audio=trimmed if audio_source == "reference" else None)

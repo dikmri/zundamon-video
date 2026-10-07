@@ -73,3 +73,56 @@ def test_h3_graph_can_switch_to_turbo_sampler_node():
     types = {n["class_type"] for n in g.values()}
     assert "MiniMaxH3TurboSampler" in types and "KSamplerSelect" not in types
     assert "LoraLoaderModelOnly" not in types and "LoadImage" not in types
+
+
+def _ref(**kw):
+    from zvideo.comfy import h3_ref_graph
+    args = dict(prompt="p", ref_images=["zvideo/key.png", "zvideo/kiri.png"], ref_audio="zvideo/line.wav",
+                seconds=5.0, seed=1, unet="r", text_encoder="t", video_vae="v", audio_vae="a")
+    args.update(kw)
+    return h3_ref_graph(**args)
+
+
+def _one(g, class_type):
+    return next(n for n in g.values() if n["class_type"] == class_type)["inputs"]
+
+
+def test_h3_ref_graph_feeds_images_and_audio_trimmed_to_clip_length():
+    g = _ref()
+    cond = _one(g, "MiniMaxH3ReferenceToVideo")
+    assert (cond["width"], cond["height"], cond["length"]) == (832, 480, 124)
+    assert g[cond["ref_images.ref_image_0"][0]]["inputs"]["image"] == "zvideo/key.png"
+    assert g[cond["ref_images.ref_image_1"][0]]["inputs"]["image"] == "zvideo/kiri.png"
+    trim = g[cond["ref_audios.ref_audio_0"][0]]
+    assert trim["class_type"] == "TrimAudioDuration"
+    assert trim["inputs"]["duration"] == pytest.approx(124 / 24)
+    assert g[trim["inputs"]["audio"][0]]["inputs"]["audio"] == "zvideo/line.wav"
+
+
+def test_h3_ref_graph_reference_audio_goes_straight_to_the_video():
+    g = _ref(audio_source="reference")
+    cond = _one(g, "MiniMaxH3ReferenceToVideo")
+    assert _one(g, "CreateVideo")["audio"] == cond["ref_audios.ref_audio_0"]
+    assert "VAEDecodeAudio" not in {n["class_type"] for n in g.values()}
+
+
+def test_h3_ref_graph_generated_audio_is_decoded():
+    g = _ref(audio_source="generated")
+    audio = _one(g, "CreateVideo")["audio"]
+    assert g[audio[0]]["class_type"] == "VAEDecodeAudio"
+
+
+def test_h3_ref_graph_without_audio_has_no_audio_reference():
+    g = _ref(ref_audio=None)
+    cond = _one(g, "MiniMaxH3ReferenceToVideo")
+    assert not [k for k in cond if k.startswith("ref_audios.")]
+    assert "LoadAudio" not in {n["class_type"] for n in g.values()}
+
+
+def test_h3_ref_graph_rejects_bad_requests():
+    with pytest.raises(ValueError):
+        _ref(ref_images=[], ref_audio=None)                      # 参照が1つもない
+    with pytest.raises(ValueError):
+        _ref(ref_audio=None, audio_source="reference")           # 載せる音がない
+    with pytest.raises(ValueError):
+        _ref(ref_images=[f"i{i}.png" for i in range(10)])        # 画像は9枚まで
