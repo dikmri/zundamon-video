@@ -13,6 +13,12 @@
    `gh release upload v0.1.0 <file> --clobber --repo dikmri/zundamon-video`
    （添付名は README のリンクと同じ `zundamon-video-promo.mp4` / `example-minimax-h3.mp4` / `example-kiritan-pv.mp4`）。
    機能が大きく増えたときは、新しいタグでリリースを作り、README のリンク先も更新する。
+5. README 冒頭の紹介動画は GitHub の動画添付（`https://github.com/user-attachments/assets/...` を1行で置くと再生プレイヤーになる）。
+   紹介動画を作り直したら、10MB 以内の 720p 版（`-vf scale=1280:-2 -crf 26 -preset slow`、約8.4MB）を作り、
+   ユーザーの Chrome で新規 Issue の入力欄へ添付して URL を取り、README の URL を差し替える（Issue は投稿しない）。
+   添付ボタンは押すと OS のファイル選択が開くので使わない。ページに一時的な `<input type=file>` を作ってファイルを渡し、
+   入力欄（textarea）に drop イベントを送るとアップロードされる。
+   添付は外部への公開にあたるので、その都度ユーザーに確認してから行う。
 
 ## 公開してはいけないもの
 
