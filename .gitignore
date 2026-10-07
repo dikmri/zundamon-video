@@ -12,3 +12,6 @@ assets/fonts/
 assets/bgm/
 assets/se/
 assets/characters/
+
+# Claude Code のプレビュー用の設定（手元の環境向け）
+.claude/launch.json

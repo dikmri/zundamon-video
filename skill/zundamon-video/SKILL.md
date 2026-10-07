@@ -28,8 +28,10 @@ script.json + boards/*.html
 |---|---|
 | `uv run python -m zvideo build projects/<名前>/script.json` | 音声合成・タイムライン・audio.wav まで作る（尺が分かる） |
 | `uv run python -m zvideo frames projects/<名前>/script.json --at 5 30 61.5` | 指定した秒のフレームを `out/<名前>/frames/*.png` に保存する |
-| `uv run python -m zvideo render projects/<名前>/script.json --workers 4` | mp4 を `out/<名前>/<名前>.mp4` に書き出す（5分の動画で数分） |
+| `uv run python -m zvideo render projects/<名前>/script.json --workers 4` | mp4 を `out/<名前>/<名前>.mp4` に書き出す（5分の動画で数分）。書き出し後、ポータル（`portal/index.html`）にも自動で加わる |
 | `uv run python -m zvideo preview projects/<名前>/script.json` | ブラウザで音声つき再生する（ユーザーの確認用。Ctrl+C で終了） |
+| `uv run python -m zvideo.portal` | 書き出した動画の一覧・視聴ページ（`portal/index.html`）のカタログを更新してブラウザで開く。HTML は直接開いても動く |
+| `uv run python -m zvideo.portal.publish <名前>` | 公開サイト（GitHub Pages）に動画を公開する。**ユーザーが「公開して」と言ったときだけ**使う（後述） |
 | `uv run pytest -q` | 口パク・タイムライン・台本検証のテスト |
 
 作例は `projects/h3/`（MiniMax H3 の解説、約4分40秒）、`projects/kiritan/`（生成 AI の作例入り、約5分）、`projects/promo/`（このスキル自体の紹介）、最小のサンプルは `projects/sample/`（約19秒）にある。新しい動画を作るときは、まずこれらの script.json とボードを読んで書き方をそろえると早い。
@@ -81,6 +83,17 @@ script.json + boards/*.html
 ### 6. 渡す
 
 mp4 のパス、尺、使った素材のクレジット、ユーザーが確認する手順（再生して見る点）を伝える。
+ポータル（`{{ZVIDEO_HOME}}/portal/index.html`）に新しい動画が加わったことも伝える（render の出力の最後に `portal:` の行が出る）。この時点ではまだ公開されていない（ポータルの一覧に「未公開」と出る）。
+
+### 7. 公開する（ユーザーが求めたときだけ）
+
+書き出した動画は自動では公開しない。ユーザーが動画を確認し、「公開して」と伝えたときに初めて公開する。公開はインターネット上に出す操作なので、頼まれていない動画は公開しない。
+
+- `uv run python -m zvideo.portal.publish <名前> --co-author "<コミットに付ける Co-Authored-By>"`
+  - mp4 を公開サイトのリポジトリのリリース（タグ `videos`）に上げ、サイト（`runtime/site` の作業コピー）を組み立てて push する。書き出し直した動画は差し替える。
+  - 公開状況は `--status`、公開をやめるのは `--remove <名前>`（ユーザーが求めたときだけ）。
+- 出力の最後に出るサイトの URL と、その動画のページの URL（`…#/watch/<名前>`）を伝える。反映には1〜2分かかる。
+- 失敗したら `logs/portal.log` の `publish.*` の行を読む。
 プレビュー（`preview`）は音声つきでシーク再生できるので、修正点を時刻で指摘してもらうのに向いている。
 
 ## 生成 AI の作例を動画に入れる

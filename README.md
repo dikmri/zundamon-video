@@ -91,6 +91,8 @@ Claude はスキルの手順に沿って、題材を調べ、`projects/<名前>/
 | `uv run python -m zvideo frames projects/<名前>/script.json --at 5 30` | 指定した秒の画面を PNG で保存する |
 | `uv run python -m zvideo preview projects/<名前>/script.json` | ブラウザで音声つき再生・シークする |
 | `uv run python -m zvideo render projects/<名前>/script.json --workers 4` | mp4 に書き出す |
+| `uv run python -m zvideo.portal` | 書き出した動画をまとめたポータル（一覧・検索・章とセリフつきの視聴）のカタログを更新し、`portal/index.html` をブラウザで開く。この HTML はサーバーなしで直接開ける。`render` で書き出した動画は自動で加わる。`--serve --lan` で同じネットワークのスマホからも見られる |
+| `uv run python -m zvideo.portal.publish --init <owner>/<repo> --all` | ポータルを GitHub Pages で公開する（初回）。リポジトリがなければ作り、動画はそのリポジトリのリリースに置く。2回目以降は `publish <名前>` で1本ずつ公開する |
 | `uv run pytest -q` | テスト |
 
 台本の書き方は [`skill/zundamon-video/references/script-schema.md`](skill/zundamon-video/references/script-schema.md)、ずんだもん解説動画の構成・口調・演出の型は [`format.md`](skill/zundamon-video/references/format.md) にまとめてあります。最小の台本はこんな形です。

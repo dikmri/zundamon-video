@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex">
+  <title>再生の確認 — Zunda Archive</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <style>
+    :root { --paper: #F2F1EA; --ink: #0E1510; --lime: #A5DA5B; --green: #2F7D32; --pink: #D43A86; --muted: #687168; --line: rgba(14, 21, 16, .14); }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.7 "Hiragino Sans", "Yu Gothic UI", "Meiryo", system-ui, sans-serif; }
+    main { max-width: 720px; margin: 0 auto; padding: 28px 16px 64px; }
+    h1 { font-size: 24px; margin: 0 0 4px; }
+    p { margin: 0 0 12px; color: #2F3A31; }
+    a { color: var(--green); }
+    .btns { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+    button { font: inherit; font-weight: 700; padding: 12px 20px; border-radius: 999px; border: 0; background: var(--ink); color: var(--paper); cursor: pointer; }
+    button.sub { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
+    button:disabled { opacity: .5; }
+    ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+    li { background: #FAF9F4; border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; display: grid; grid-template-columns: 34px 1fr; gap: 4px 10px; align-items: start; }
+    .mark { grid-row: span 2; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-weight: 900; background: #E7E8DD; }
+    .ok .mark { background: var(--lime); }
+    .ng .mark { background: var(--pink); color: #fff; }
+    .name { font-weight: 700; }
+    .detail { font: 12px/1.6 ui-monospace, Consolas, monospace; color: var(--muted); word-break: break-all; }
+    video { position: absolute; width: 2px; height: 2px; opacity: .01; pointer-events: none; }
+    pre { white-space: pre-wrap; word-break: break-all; font: 11px/1.6 ui-monospace, Consolas, monospace; background: #E7E8DD; padding: 12px; border-radius: 10px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>動画の再生の確認</h1>
+  <p>この端末で、配信のしかたごとに動画を再生できるかを試します。下のボタンを押して、すべての行に ○ か × が付くまで待ってください（1分ほど）。</p>
+  <p>終わったら「結果をコピー」を押して、貼り付けて送ってください。</p>
+  <div class="btns">
+    <button id="run" type="button">確認を始める</button>
+    <button id="copy" class="sub" type="button" disabled>結果をコピー</button>
+    <a href="./" style="align-self:center">サイトへ戻る</a>
+  </div>
+  <ol id="list"></ol>
+  <h2 style="font-size:16px;margin:24px 0 8px">端末の情報</h2>
+  <pre id="env"></pre>
+</main>
+<script>
+(function () {
+  'use strict';
+  const $ = (s) => document.querySelector(s);
+  const env = {
+    ua: navigator.userAgent,
+    screen: `${screen.width}x${screen.height} @${devicePixelRatio}`,
+    canPlay_mp4: document.createElement('video').canPlayType('video/mp4; codecs="avc1.640028, mp4a.40.2"'),
+    canPlay_hls: document.createElement('video').canPlayType('application/vnd.apple.mpegurl'),
+  };
+  $('#env').textContent = Object.entries(env).map(([k, v]) => `${k}: ${v || '(空)'}`).join('\n');
+
+  function loadCatalog() {
+    const srcs = ['data/catalog.js', '../runtime/portal/catalog.js'];
+    return srcs.reduce((p, src) => p.catch(() => new Promise((res, rej) => {
+      const s = document.createElement('script');
+      s.src = `${src}?t=${Date.now()}`;
+      s.onload = () => (window.ZA_CATALOG ? res(window.ZA_CATALOG) : rej(new Error('no catalog')));
+      s.onerror = () => rej(new Error(`${src} を読めません`));
+      document.head.appendChild(s);
+    })), Promise.reject(new Error('start')));
+  }
+
+  function probe(url) {
+    return new Promise((resolve) => {
+      const v = document.createElement('video');
+      v.muted = true; v.playsInline = true; v.setAttribute('playsinline', ''); v.preload = 'auto';
+      const t0 = performance.now();
+      let done = false, meta = null;
+      const finish = (ok, detail) => {
+        if (done) return;
+        done = true;
+        clearTimeout(timer);
+        v.pause(); v.removeAttribute('src'); v.load(); v.remove();
+        resolve({ ok, detail });
+      };
+      const timer = setTimeout(() => finish(false, `timeout（${meta ? '情報は読めたが再生が始まらない' : '情報を読めない'}） readyState=${v.readyState} networkState=${v.networkState}`), 25000);
+      v.addEventListener('loadedmetadata', () => {
+        meta = Math.round(performance.now() - t0);
+        const p = v.play();
+        if (p) p.catch((e) => finish(false, `play() 失敗: ${e.name} ${e.message}`));
+      });
+      v.addEventListener('timeupdate', () => { if (v.currentTime > 0.3) finish(true, `情報 ${meta}ms / 再生開始 ${Math.round(performance.now() - t0)}ms / ${v.videoWidth}x${v.videoHeight} / 長さ ${v.duration.toFixed(1)}s`); });
+      v.addEventListener('error', () => finish(false, `MediaError code=${v.error && v.error.code} ${(v.error && v.error.message) || ''}`));
+      v.src = url;
+      document.body.appendChild(v);
+    });
+  }
+
+  let resultText = '';
+  $('#run').addEventListener('click', async () => {
+    $('#run').disabled = true;
+    const list = $('#list');
+    list.innerHTML = '';
+    let cat;
+    try { cat = await loadCatalog(); } catch (e) { list.innerHTML = `<li class="ng"><span class="mark">×</span><span class="name">カタログを読めません</span><span class="detail">${e.message}</span></li>`; return; }
+    const v = [...cat.videos].sort((a, b) => a.duration - b.duration)[0];
+    const tests = [
+      ['本編の mp4（リリース添付から直接）', v.video.src],
+      ['本編の HLS（Safari 向けの配信）', v.video.hls || ''],
+      ['ダイジェストの mp4（サイトに同梱）', v.preview],
+      ['画素形式 yuv420p の短い動画（サイトに同梱）', 'check/yuv420p.mp4'],
+    ];
+    const lines = [`動画: ${v.id}`];
+    for (const [name, url] of tests) {
+      const li = document.createElement('li');
+      li.innerHTML = `<span class="mark">…</span><span class="name"></span><span class="detail">確認中…</span>`;
+      li.querySelector('.name').textContent = name;
+      list.appendChild(li);
+      if (!url) { li.querySelector('.mark').textContent = '－'; li.querySelector('.detail').textContent = '（この動画にはありません）'; lines.push(`－ ${name}: なし`); continue; }
+      const r = await probe(url);
+      li.className = r.ok ? 'ok' : 'ng';
+      li.querySelector('.mark').textContent = r.ok ? '○' : '×';
+      li.querySelector('.detail').textContent = r.detail;
+      lines.push(`${r.ok ? '○' : '×'} ${name}: ${r.detail}`);
+    }
+    resultText = lines.concat(['', $('#env').textContent]).join('\n');
+    $('#copy').disabled = false;
+    $('#run').disabled = false;
+  });
+  $('#copy').addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(resultText); $('#copy').textContent = 'コピーしました'; }
+    catch { const t = document.createElement('textarea'); t.value = resultText; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); $('#copy').textContent = 'コピーしました'; }
+  });
+})();
+</script>
+</body>
+</html>

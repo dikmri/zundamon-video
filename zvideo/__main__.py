@@ -52,6 +52,15 @@ def main(argv=None):
             if abs(got - info["total"]) > 0.2:
                 raise RuntimeError(f"動画の尺が台本と合いません（期待 {info['total']:.2f}s、実際 {got:.2f}s）")
             print("video:", mp4)
+            # 書き出した動画をポータル（portal/index.html）に加える。失敗しても書き出し自体は成功のまま
+            try:
+                from .portal.media import build_catalog, page_uri
+                cat = build_catalog()
+                log("render.portal", {"mp4": str(mp4)}, f"ok videos={len(cat['videos'])}")
+                print(f"portal: {len(cat['videos'])} 本  {page_uri()}")
+            except Exception as e:
+                log("render.portal", {"mp4": str(mp4)}, f"ERROR {type(e).__name__}: {e}")
+                print("portal: カタログの更新に失敗しました（logs/zvideo.log と logs/portal.log を参照）")
         elif a.cmd == "preview":
             from .render import serve
             server, port = serve(a.port)

@@ -20,19 +20,19 @@ def _fmt(value):
     return json.dumps(value, ensure_ascii=False, default=str)
 
 
-def log(event, args=None, result=None):
+def log(event, args=None, result=None, file=None):
     LOGS.mkdir(parents=True, exist_ok=True)
     stamp = datetime.now().isoformat(timespec="milliseconds")
     line = f"{stamp} | {event} | {_fmt(args)} | {_fmt(result)}"
-    with LOG_FILE.open("a", encoding="utf-8") as f:
+    with (file or LOG_FILE).open("a", encoding="utf-8") as f:
         f.write(line.replace("\n", "\\n") + "\n")
 
 
 class step:
     """with step("event", args) as s: ...; s.result = "..."  例外もログに残して再送出する。"""
 
-    def __init__(self, event, args=None):
-        self.event, self.args, self.result = event, args, None
+    def __init__(self, event, args=None, file=None):
+        self.event, self.args, self.result, self.file = event, args, None, file
 
     def __enter__(self):
         self.t0 = time.perf_counter()
@@ -41,7 +41,8 @@ class step:
     def __exit__(self, exc_type, exc, tb):
         dt = time.perf_counter() - self.t0
         if exc is not None:
-            log(self.event, self.args, f"ERROR {exc_type.__name__}: {exc} ({dt:.2f}s)")
+            log(self.event, self.args, f"ERROR {exc_type.__name__}: {exc} ({dt:.2f}s)", file=self.file)
             return False
-        log(self.event, self.args, f"ok {dt:.2f}s" + (f" {_fmt(self.result)}" if self.result is not None else ""))
+        log(self.event, self.args, f"ok {dt:.2f}s" + (f" {_fmt(self.result)}" if self.result is not None else ""),
+            file=self.file)
         return False
