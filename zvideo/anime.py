@@ -26,6 +26,7 @@ class Line:
     pitch: float = 0.0
     intonation: float = 1.0
     with_prev: bool = False    # 直前のセリフと同時に話す（「「あっ」」など）
+    vo: bool = False           # 心の声（ナレーション）。時間は取るが H3 の参照音声には入れず、口は閉じたまま act を演じる
 
 
 @dataclass
@@ -72,7 +73,7 @@ def plan(clip, durations):
             else:
                 s = t if i == 0 else t + line.gap
             item = {"shot": len(shots), "who": line.who, "text": line.text, "start": round(s, 3),
-                    "end": round(s + d, 3)}
+                    "end": round(s + d, 3), "vo": line.vo}
             lines.append(item)
             t = max(t, item["end"])
             prev, k = item, k + 1
@@ -100,7 +101,8 @@ def _labels(clip, lines):
     subject = {who: f"<Subject {i + 1}>" for i, who in enumerate(clip.cast)}
     speaker = {}
     for ln in lines:
-        speaker.setdefault(ln["who"], f"(S{len(speaker) + 1})")
+        if not ln.get("vo"):
+            speaker.setdefault(ln["who"], f"(S{len(speaker) + 1})")
     return subject, speaker
 
 
@@ -112,7 +114,7 @@ def ref_prompt(clip, p, chars, style, audio="copy"):
     """
     subject, speaker = _labels(clip, p["lines"])
     fmt = {who: subject[who] for who in clip.cast}
-    has_audio = bool(p["lines"])
+    has_audio = any(not ln.get("vo") for ln in p["lines"])
     refs = [who for who in clip.cast if who in clip.refs]
     pic = {who: f"<Picture {i + 2}>" for i, who in enumerate(refs)}
 
@@ -167,6 +169,9 @@ def ref_prompt(clip, p, chars, style, audio="copy"):
         if shot.act:
             parts.append(shot.act.format(**fmt))
         for line in shot.lines:
+            if line.vo:  # 心の声の文は書かない（書くと H3 が声にする）
+                parts.append(f"{subject[line.who]} {line.act.format(**fmt)} with her mouth closed.")
+                continue
             parts.append(f"{subject[line.who]} {speaker[line.who]} {line.act.format(**fmt)}, "
                          f"<d>[Japanese] {line.text}</d>")
         if shot.after:

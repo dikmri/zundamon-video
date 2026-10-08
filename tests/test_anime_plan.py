@@ -120,3 +120,29 @@ def test_ref_prompt_states_the_setting_for_every_shot():
     text = ref_prompt(c, plan(c, []), CHARS, style="Anime.")
     assert "takes place at night on a moonlit veranda" in text
     assert text.index("takes place") < text.index("[Shot 1] The shot begins")
+
+
+def test_plan_gives_inner_voice_lines_time_and_marks_them():
+    c = Clip("c1", cast=["kiri"], shots=[
+        Shot("close-up", lines=[Line("kiri", "（ねむい）", vo=True), Line("kiri", "おはよう。")], pre=0.5, hold=0.5)])
+    p = plan(c, [2.0, 1.0])
+    assert [(x["start"], x["end"], x["vo"]) for x in p["lines"]] == [(0.5, 2.5, True), (2.85, 3.85, False)]
+
+
+def test_ref_prompt_keeps_inner_voice_out_of_the_dialogue_track_and_the_mouth_closed():
+    c = Clip("c1", cast=["zunko", "kiri"], key_desc="two sisters", summary="Morning.", shots=[
+        Shot("a close-up of {kiri}", lines=[
+            Line("kiri", "（ねむい……）", act="rubs her eyes and yawns silently", vo=True),
+            Line("zunko", "おきなさい。", act="says sternly")])])
+    text = ref_prompt(c, plan(c, [2.0, 1.0]), CHARS, style="2D anime.")
+    assert "ねむい" not in text                       # 心の声は H3 に読ませない（声を作らせない）
+    assert "<Subject 2> rubs her eyes and yawns silently with her mouth closed" in text
+    assert "<Subject 1> (S1) says sternly, <d>[Japanese] おきなさい。</d>" in text
+    assert "(S2)" not in text                         # 話者は声のある人だけ
+
+
+def test_ref_prompt_without_spoken_lines_has_no_audio_even_with_inner_voice():
+    c = Clip("c1", cast=["kiri"], key_desc="a girl", summary="Thinking.", shots=[
+        Shot("a close-up", lines=[Line("kiri", "（どうしよう）", act="stares at her phone", vo=True)])])
+    text = ref_prompt(c, plan(c, [2.0]), CHARS, style="2D anime.")
+    assert "<Audio 1>" not in text
