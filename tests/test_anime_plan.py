@@ -112,3 +112,11 @@ def test_ref_prompt_states_that_nobody_appears_when_the_cast_is_empty():
 def test_ref_prompt_does_not_add_the_empty_room_note_when_someone_appears():
     c = Clip("c1", cast=["kiri"], key_desc="x", shots=[Shot("a shot", dur=2.0)])
     assert "No people appear" not in ref_prompt(c, plan(c, []), CHARS, style="Anime.")
+
+
+def test_ref_prompt_states_the_setting_for_every_shot():
+    c = Clip("c1", cast=["kiri"], key_desc="x", setting="at night on a moonlit veranda",
+             shots=[Shot("a wide shot", dur=2.0), Shot("a close-up of {kiri}", dur=2.0)])
+    text = ref_prompt(c, plan(c, []), CHARS, style="Anime.")
+    assert "takes place at night on a moonlit veranda" in text
+    assert text.index("takes place") < text.index("[Shot 1] The shot begins")

@@ -50,6 +50,7 @@ class Clip:
     sound: str = ""            # 環境音・効果音（英語）
     refs: dict = field(default_factory=dict)   # {人物: 追加の参照画像の説明}。cast の順に <Picture 2> 以降になる
     in_key: list | None = None  # 最初のコマに写っている人物。None なら cast 全員
+    setting: str = ""          # 場所と時間帯（英語、"at night on ..." など）。寄りの切り返しも含め全ショットに効かせる
     key: dict | None = None    # 最初のコマの画像生成の指定（WAI-Anima など。このモジュールは使わない）
     extra: dict = field(default_factory=dict)  # 呼び出し側が自由に使う
 
@@ -154,6 +155,10 @@ def ref_prompt(clip, p, chars, style, audio="copy"):
                         " track.")
 
     body = [style]
+    if clip.setting:
+        # 書かないと、参照立ち絵から描く寄りのショットが昼の明るい室内になることがある
+        body.append(f"The whole video takes place {clip.setting}; every shot, including close-ups, keeps this "
+                    "setting, time of day and lighting.")
     for i, (shot, span) in enumerate(zip(clip.shots, p["shots"])):
         cam = shot.cam.format(**fmt)
         head = (f"[Shot 1] The shot begins from <Picture 1>, {cam}." if i == 0
