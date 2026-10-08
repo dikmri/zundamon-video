@@ -146,3 +146,11 @@ def test_ref_prompt_without_spoken_lines_has_no_audio_even_with_inner_voice():
         Shot("a close-up", lines=[Line("kiri", "（どうしよう）", act="stares at her phone", vo=True)])])
     text = ref_prompt(c, plan(c, [2.0]), CHARS, style="2D anime.")
     assert "<Audio 1>" not in text
+
+
+def test_ref_prompt_allows_inner_voice_over_a_shot_without_the_speaker():
+    # 人のいない風景に心の声だけを重ねる（声の主は写らない）。act が空なら動きも書かない
+    c = Clip("c1", cast=[], key_desc="a hot pot", summary="It simmers.", shots=[
+        Shot("a close-up", lines=[Line("kiri", "（まだかな）", act="", vo=True)])])
+    text = ref_prompt(c, plan(c, [2.0]), CHARS, style="2D anime.")
+    assert "まだかな" not in text and "mouth closed" not in text and "<Audio 1>" not in text

@@ -169,8 +169,9 @@ def ref_prompt(clip, p, chars, style, audio="copy"):
         if shot.act:
             parts.append(shot.act.format(**fmt))
         for line in shot.lines:
-            if line.vo:  # 心の声の文は書かない（書くと H3 が声にする）
-                parts.append(f"{subject[line.who]} {line.act.format(**fmt)} with her mouth closed.")
+            if line.vo:  # 心の声の文は書かない（書くと H3 が声にする）。声の主が写らないか act が空なら何も書かない
+                if line.who in subject and line.act:
+                    parts.append(f"{subject[line.who]} {line.act.format(**fmt)} with her mouth closed.")
                 continue
             parts.append(f"{subject[line.who]} {speaker[line.who]} {line.act.format(**fmt)}, "
                          f"<d>[Japanese] {line.text}</d>")
