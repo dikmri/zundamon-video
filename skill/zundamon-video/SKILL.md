@@ -103,6 +103,7 @@ mp4 のパス、尺、使った素材のクレジット、ユーザーが確認�
 - **画像（WAI-Anima / Anima 系）**: `uv run python tools/anima_gen.py projects/<名前>/media/anima_spec.json --comfy-root <ポータブル版 ComfyUI>`。`--url`（既定 8190 番）の ComfyUI が応答しなければポータブル版を裏で起動し、spec の各画像を `media/<名前>.png` に保存して、自分で起こしたサーバーだけ止める。レーティングは safe 以外を受け付けず、否定プロンプトへ成人向けタグを必ず足す。
 - **動画（MiniMax H3）**: H3 が入った ComfyUI（0.30 以降）を起動しておき、`uv run python tools/h3_gen.py --image <最初のコマ> --prompt-file <txt> --out <mp4> --seconds 5 --url <ComfyUI の URL>`。モデル名の既定は Hugging Face「Comfy-Org/MiniMax-H3」のファイル名で、違う名前なら `--unet` `--text-encoder` `--lora` などで渡す。MiniMaxH3TurboSampler（カスタムノード）があれば `--turbo-sampler` で声や効果音がきれいになる。プロンプトは「最初のコマの指定 → 映像とセリフ → 環境音 → BGM」の順に英語で書く（セリフは `<d>[Japanese] …</d>` で日本語のまま）。RTX 5060 Ti 16GB で 480p・5 秒が約 4 分（2本目以降はモデルを載せたままなので約 3 分）。何本も続けて作るときは最後の1本以外に `--no-free` を付けると、毎回のモデルの読み直しを省ける。
 - **セリフに口を合わせたアニメ（H3 参照モード）**: ref2va 重み（`minimax_h3_ref2va_pruned_int8_convrot.safetensors`）で、最初のコマの画像と VOICEVOX のセリフ wav を渡すと、その声に口の動きが合った映像になる。`tools/h3_gen.py --ref-image <最初のコマ> [--ref-image <人物の参照>…] --ref-audio <セリフ.wav> --prompt-file <txt>`。1 回の生成（最大 15 秒）の中で `[Shot N] At 00:0X.XXX` によるカット割りもできる（引き→寄り→切り返し）。セリフの並べ方とプロンプト（参照モードの 6 節）は `zvideo.anime` の `plan()` と `ref_prompt()` が作る。H3 が写し直すセリフは原音よりわずかにこもるので、完成品のセリフは VOICEVOX の原音を使い、効果音だけ H3 の音を使うとよい。
+- **BGM（MiniMax Music 3）**: Hugging Face「Comfy-Org/MiniMax-Music-3」の int8 DiT・int8 テキストエンコーダ・VAE を読める ComfyUI を起動しておき、`uv run python tools/music_gen.py --caption-file <曲の説明.txt> --seconds 90 --seed 1 --out bgm.flac`。説明は英語で Global Metadata（ジャンル・BPM・調・感情の流れ・用途）/ Vocal Details（歌なしは "No vocals"）/ Arrangement（楽器・強弱・質感）の 3 節に書く。セリフの下に敷くなら「盛り上がりなし・弱音中心・楽器 1 つ」と、入れない楽器（strings, pads, cymbals, swells, sound effects など）まで書くと主張が弱くなる。長さはモデルが決め（40〜55 秒が多い）、`--seconds` は上限にすぎない。長い場面は seed を変えたテイクをクロスフェードでつなぐ。指定していない装飾音が混じるテイクがあるので、聴くか 6 kHz 以上の音量を 1 秒ごとに測って除く。RTX 5060 Ti 16GB で 1 本約 100 秒。
 - 画像生成と H3 は同じ GPU を奪い合うので、順番に動かす（どちらのツールも、自分で起こした ComfyUI は終わると止める）。
 - 作例の内容は全年齢に限る。とくに子どもの設定のキャラクター（東北きりたん等）は、服装・しぐさ・構図まで健全なものだけを作り、出力は1枚ずつ目で確認してから使う。
 
@@ -113,6 +114,7 @@ mp4 のパス、尺、使った素材のクレジット、ユーザーが確認�
 - 音声: `VOICEVOX:ずんだもん`、`VOICEVOX:四国めたん`（この表記どおり。使ったキャラだけ）
 - 立ち絵: `立ち絵：坂本アヒル`（readme では表記は任意だが入れる）。公式立ち絵版を使った場合は「東北ずん子・ずんだもんプロジェクト公式素材」。どちらも東北ずん子・ずんだもんプロジェクトのキャラクター利用ガイドラインに従う（非商用は無料。企業案件など商用は要確認。イメージを著しく損なう内容は禁止）。めたんの PSD には水着・バニー服・素体も入っているが、通常服以外は使わない
 - 音楽: `音楽：魔王魂`（BGM を使うときは表記が必須）
+- 生成した BGM: `音楽生成：MiniMax-Music3`（MiniMax-Music3 Community License。商用では表示が必須）
 - 効果音: 効果音ラボ（表記は任意だが入れておく。効果音が主役の動画は規約上の再配布扱いになるので不可）
 - フォント: M PLUS Rounded 1c / Dela Gothic One（SIL OFL）
 

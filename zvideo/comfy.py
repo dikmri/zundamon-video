@@ -289,3 +289,44 @@ def h3_ref_graph(prompt, ref_images, ref_audio, seconds, seed, unet, text_encode
     g["10"] = {"class_type": "MiniMaxH3ReferenceToVideo", "inputs": cond}
     return _h3_sample_and_save(g, model, steps, sampler, turbo_sampler, seed, prefix,
                                audio=trimmed if audio_source == "reference" else None)
+
+
+
+MUSIC3_DEFAULTS = {
+    # Hugging Face「Comfy-Org/MiniMax-Music-3」の ComfyUI 用ファイル名（int8 は VRAM 16GB 向け）
+    "unet": "minimax_music3_dit_int8_convrot.safetensors",
+    "text_encoder": "minimax_music3_text_encoder_pruned_int8_convrot.safetensors",
+    "vae": "minimax_music3_dav.safetensors",
+}
+
+
+def music3_graph(caption, seconds, seed, lyrics="[Intro]\n[Instrumental]\n[Outro]", unet=MUSIC3_DEFAULTS["unet"],
+                 text_encoder=MUSIC3_DEFAULTS["text_encoder"], vae=MUSIC3_DEFAULTS["vae"], steps=30, cfg=1.7,
+                 enc_cfg=1.7, top_k=50, tiled=False, prefix="audio/zvideo_music3"):
+    """MiniMax Music 3 で曲を作るグラフ。既定は歌なし（歌詞の欄はセクションのタグだけ）の BGM。
+
+    caption は曲の説明（英語。Global Metadata / Vocal Details / Arrangement の 3 節で書くと寄る）。
+    seconds は上限で、実際の長さは文章エンコードがモデルの判断で決める（40〜55 秒で終わりやすい）。
+    文章エンコードは自己回帰で音の条件を 1 フレームずつ作り、モデルが終わりを出した所で止まる。
+    空の潜在をその長さより長くすると、条件のない区間が雑音になるので、長さは必ずエンコードの出力に合わせる。
+    長い曲が要るときは、別の seed のテイクをつなぐかループする。
+    ComfyUI 公式テンプレート audio_minimax_music_3 と同じ構成。
+    """
+    decode = ({"class_type": "VAEDecodeAudioTiled", "inputs": {"samples": ["7", 0], "vae": ["3", 0],
+                                                               "tile_size": 1536, "overlap": 64}} if tiled
+              else {"class_type": "VAEDecodeAudio", "inputs": {"samples": ["7", 0], "vae": ["3", 0]}})
+    return {
+        "1": {"class_type": "UNETLoader", "inputs": {"unet_name": unet, "weight_dtype": "default"}},
+        "2": {"class_type": "CLIPLoader", "inputs": {"clip_name": text_encoder, "type": "minimax", "device": "default"}},
+        "3": {"class_type": "VAELoader", "inputs": {"vae_name": vae}},
+        "4": {"class_type": "MiniMaxMusic3TextEncode", "inputs": {
+            "clip": ["2", 0], "caption": caption, "lyrics": lyrics, "seed": seed, "max_duration": float(seconds),
+            "cfg_scale": enc_cfg, "top_k": top_k}},
+        "5": {"class_type": "ConditioningZeroOut", "inputs": {"conditioning": ["4", 0]}},
+        "6": {"class_type": "EmptyMiniMaxMusic3LatentAudio", "inputs": {"seconds": ["4", 1], "batch_size": 1}},
+        "7": {"class_type": "KSampler", "inputs": {
+            "model": ["1", 0], "positive": ["4", 0], "negative": ["5", 0], "latent_image": ["6", 0], "seed": seed,
+            "steps": steps, "cfg": cfg, "sampler_name": "euler", "scheduler": "simple", "denoise": 1.0}},
+        "8": decode,
+        "9": {"class_type": "SaveAudio", "inputs": {"audio": ["8", 0], "filename_prefix": prefix}},
+    }

@@ -126,3 +126,28 @@ def test_h3_ref_graph_rejects_bad_requests():
         _ref(ref_audio=None, audio_source="reference")           # 載せる音がない
     with pytest.raises(ValueError):
         _ref(ref_images=[f"i{i}.png" for i in range(10)])        # 画像は9枚まで
+
+
+def test_music3_graph_makes_an_instrumental_track_with_the_model_deciding_the_length():
+    from zvideo.comfy import music3_graph
+    g = music3_graph("Global Metadata: warm lo-fi piano.", seconds=95.0, seed=7)
+    enc = _one(g, "MiniMaxMusic3TextEncode")
+    assert enc["caption"] == "Global Metadata: warm lo-fi piano."
+    assert enc["lyrics"] == "[Intro]\n[Instrumental]\n[Outro]"
+    assert (enc["max_duration"], enc["seed"]) == (95.0, 7)
+    # 曲の長さは文章エンコードが決める（max_duration は上限）。その値で空の潜在を作る
+    assert _one(g, "EmptyMiniMaxMusic3LatentAudio")["seconds"][1] == 1
+    sampler = _one(g, "KSampler")
+    assert (sampler["seed"], sampler["steps"], sampler["cfg"]) == (7, 30, 1.7)
+    assert g[sampler["negative"][0]]["class_type"] == "ConditioningZeroOut"
+    assert _one(g, "CLIPLoader")["type"] == "minimax"
+    assert _one(g, "UNETLoader")["unet_name"] == "minimax_music3_dit_int8_convrot.safetensors"
+    assert "SaveAudio" in {n["class_type"] for n in g.values()}
+
+
+def test_music3_graph_can_decode_in_tiles_to_save_vram():
+    from zvideo.comfy import music3_graph
+    g = music3_graph("x", seconds=30, seed=1, tiled=True)
+    types = {n["class_type"] for n in g.values()}
+    assert "VAEDecodeAudioTiled" in types and "VAEDecodeAudio" not in types
+
