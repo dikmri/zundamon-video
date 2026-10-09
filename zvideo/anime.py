@@ -138,6 +138,10 @@ def ref_prompt(clip, p, chars, style, audio="copy"):
     if not clip.cast:
         # 人物のいないカットでも、書かないと H3 は人を足して描くことがある
         summary += " No people appear anywhere in the target video; the place stays empty throughout."
+    else:
+        # 書かないと、H3 は足したカットに通行人や同じ人物の 2 人目を描くことがある
+        names = " and ".join(subject[w] for w in clip.cast)
+        summary += f" Only {names} appear in the target video; no other people appear in any shot."
     if has_audio:
         summary += (" <Audio 1> is reused unchanged as the complete dialogue, and each character's lips move only"
                     " while her own line in <Audio 1> is heard; everyone else keeps her mouth closed.")
@@ -166,6 +170,9 @@ def ref_prompt(clip, p, chars, style, audio="copy"):
         head = (f"[Shot 1] The shot begins from <Picture 1>, {cam}." if i == 0
                 else f"[Shot {i + 1}] At {_ts(span['start'])}, the shot cuts to {cam}.")
         parts = [head]
+        if len(clip.shots) == 1:
+            # 1 ショットでも、H3 は勝手にカットを切り替えることがある
+            parts.append("The whole video is one continuous shot with no cuts.")
         if shot.act:
             parts.append(shot.act.format(**fmt))
         for line in shot.lines:

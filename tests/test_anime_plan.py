@@ -154,3 +154,21 @@ def test_ref_prompt_allows_inner_voice_over_a_shot_without_the_speaker():
         Shot("a close-up", lines=[Line("kiri", "（まだかな）", act="", vo=True)])])
     text = ref_prompt(c, plan(c, [2.0]), CHARS, style="2D anime.")
     assert "まだかな" not in text and "mouth closed" not in text and "<Audio 1>" not in text
+
+
+def test_ref_prompt_keeps_a_single_shot_clip_as_one_take():
+    # 1 ショットのクリップでも、H3 は勝手にカットを切り替えて別の人物を足すことがある
+    c = Clip("c1", cast=["kiri"], key_desc="a girl", summary="She waits.", shots=[Shot("a static close-up", dur=3.0)])
+    text = ref_prompt(c, plan(c, []), CHARS, style="2D anime.")
+    assert "one continuous shot with no cuts" in text
+
+
+def test_ref_prompt_does_not_forbid_cuts_when_the_clip_has_several_shots():
+    c = Clip("c1", cast=["kiri"], key_desc="a girl", summary="x", shots=[Shot("wide", dur=2.0), Shot("close", dur=2.0)])
+    assert "no cuts" not in ref_prompt(c, plan(c, []), CHARS, style="2D anime.")
+
+
+def test_ref_prompt_says_nobody_but_the_cast_appears():
+    c = Clip("c1", cast=["zunko", "kiri"], key_desc="two sisters", summary="x", shots=[Shot("two shot", dur=2.0)])
+    text = ref_prompt(c, plan(c, []), CHARS, style="2D anime.")
+    assert "Only <Subject 1> and <Subject 2> appear in the target video; no other people appear in any shot." in text
