@@ -15,25 +15,38 @@ import uuid
 from .log import log, step
 
 QUALITY = ["masterpiece", "best quality", "score_7"]
-# 解説動画の作例は全年齢に固定する。レーティングは safe 以外を受け付けず、
-# 否定プロンプトには成人向けレーティングと露出系のタグを必ず足す。
-ALWAYS_NEGATIVE = ["nsfw", "explicit", "sensitive", "questionable", "nude", "cleavage", "underwear",
-                   "swimsuit", "suggestive"]
+# レーティングは danbooru 系の5段階。safe と adult（adult_general/adult_explicit 相当）を許す。
+# 架空のキャラに限り性的表現を許可する。実写・フェイクポルノは禁止（アニメイラスト限定）。
+# 子どもの設定・外見のキャラクター（東北きりたん等）は常に safe で描く。
+ALLOWED_RATINGS = {"safe", "adult"}
+# safe のときだけ足す否定タグ（成人向けレーティングと露出系をブロック）。
+SAFE_NEGATIVE = ["nsfw", "explicit", "sensitive", "questionable", "nude", "cleavage", "underwear",
+                 "swimsuit", "suggestive"]
+# 常に足す否定タグ（実写・フェイクポルノをブロック。作例はアニメイラストに限定する）。
+PHOTOREALISTIC_NEGATIVE = ["photo", "photorealistic", "realistic", "real life", "photograph"]
 BASE_NEGATIVE = ["worst quality", "low quality", "score_1", "score_2", "score_3", "artist name", "blurry",
                  "jpeg artifacts", "lowres", "censor", "watermark", "text", "bad hands", "extra digits"]
 
 
 def compose_prompt(characters, tags, series=(), rating="safe"):
-    """Anima の推奨順（品質・レーティング → キャラ → 作品 → 一般タグ）でタグを並べる。"""
-    if rating != "safe":
-        raise ValueError("作例は全年齢に固定している（rating は safe のみ）")
+    """Anima の推奨順（品質・レーティング → キャラ → 作品 → 一般タグ）でタグを並べる。
+
+    rating は "safe" か "adult"。adult は架空の成人キャラの性的表現のときだけ使い、
+    子どもの設定・外見のキャラには使わない。
+    """
+    if rating not in ALLOWED_RATINGS:
+        raise ValueError("rating は safe か adult（架空の成人キャラ限定）のみ")
     return ", ".join([*QUALITY, rating, *characters, *series, *tags])
 
 
 def anima_graph(positive, negative, unet, text_encoder, vae, width, height, seed,
-                steps=28, cfg=4.5, sampler="euler_ancestral", scheduler="normal", prefix="zvideo/anima"):
+                steps=28, cfg=4.5, sampler="euler_ancestral", scheduler="normal", prefix="zvideo/anima",
+                rating="safe"):
     neg_tags = [t.strip() for t in negative.split(",") if t.strip()]
-    neg = ", ".join(neg_tags + [t for t in ALWAYS_NEGATIVE if t not in neg_tags])
+    blocked = PHOTOREALISTIC_NEGATIVE
+    if rating == "safe":
+        blocked = [*blocked, *SAFE_NEGATIVE]
+    neg = ", ".join(neg_tags + [t for t in blocked if t not in neg_tags])
     return {
         "1": {"class_type": "UNETLoader", "inputs": {"unet_name": unet, "weight_dtype": "default"}},
         "2": {"class_type": "CLIPLoader", "inputs": {"clip_name": text_encoder, "type": "stable_diffusion",

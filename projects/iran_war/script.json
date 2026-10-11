@@ -1,0 +1,376 @@
+{
+  "meta": {
+    "title": "【ずんだもん解説】アメリカ・イスラエル×イラン戦争 なぜ始まり、なぜ終わらないのか",
+    "series": "ずんだもんのニュース解説（2026年10月7日時点）",
+    "fps": 30,
+    "bgm": "assets/bgm/maou_bgm_piano38_long.wav",
+    "bgm_volume": 0.13,
+    "se_volume": 0.38,
+    "timing": {
+      "lead_in": 0.3,
+      "scene_lead": 0.5,
+      "gap": 0.25,
+      "scene_tail": 0.7,
+      "outro": 2.5
+    },
+    "reading": {
+      "IAEA": "アイエーイーエー",
+      "UAE": "ユーエーイー",
+      "12日間戦争": "じゅうににちかんせんそう",
+      "12日間": "じゅうににちかん",
+      "覚書": "おぼえがき",
+      "2817号": "にせんはっぴゃくじゅうななごう",
+      "9千万人": "きゅうせんまんにん",
+      "190.8円": "ひゃくきゅうじゅってんはちえん",
+      "42.4円": "よんじゅうにてんよんえん",
+      "3隻": "さんせき",
+      "3隻目": "さんせきめ",
+      "21時間": "にじゅういちじかん",
+      "5分の1": "ごぶんのいち",
+      "9割": "きゅうわり",
+      "数千人": "すうせんにん",
+      "強硬派": "きょうこうは",
+      "ハメネイ師": "ハメネイし",
+      "モジタバ師": "モジタバし",
+      "親イラン": "しんイラン",
+      "親米": "しんべい",
+      "1期目": "いっきめ",
+      "我慢比べ": "がまんくらべ"
+    }
+  },
+  "cast": {
+    "metan": {"character": "metan", "position": "left", "speed": 1.15},
+    "zundamon": {"character": "zundamon", "position": "right", "speed": 1.2}
+  },
+  "scenes": [
+    {
+      "id": "opening",
+      "hide_header": true,
+      "se": "title",
+      "board": {"layout": "title", "badge": "ずんだもんのニュース解説", "heading_html": "<span class=\"accent\">アメリカ・イスラエル</span><br>×イラン戦争", "sub": "なぜ始まった？ 誰が悪い？ なぜ終わらない？\n2026年10月7日時点", "enter": "zoom"},
+      "lines": [
+        {"who": "zundamon", "text": "ずんだもんなのだ！今日は、ニュースで毎日聞く戦争の話なのだ。", "face": "normal", "pose": "point_up"},
+        {"who": "metan", "text": "四国めたんよ。アメリカ・イスラエルとイランの戦争ね。", "face": "normal", "pose": "present"},
+        {"who": "zundamon", "text": "でも正直、なんで戦っているのか、よくわからないのだ……", "face": "think", "pose": "think"},
+        {"who": "metan", "text": "そう感じている人は、きっと多いと思うわ。", "face": "normal"}
+      ]
+    },
+    {
+      "id": "questions",
+      "chapter": "はじめに",
+      "board": {"title": "この動画で答える3つの疑問", "html_file": "boards/questions.html"},
+      "lines": [
+        {"who": "metan", "text": "今回は、3つの疑問に順番に答えていくわ。"},
+        {"who": "zundamon", "text": "1つ目は、「なぜ始まったのか」なのだ。", "step": 1, "se": "pop", "pose": "point"},
+        {"who": "metan", "text": "2つ目は、「誰が悪いのか」。", "step": 2, "se": "pop"},
+        {"who": "zundamon", "text": "3つ目は、「なぜ終わらないのか」なのだ！", "step": 3, "se": "pop", "pose": "point"},
+        {"who": "metan", "text": "どこかの国を応援したり責めたりはせず、事実を並べていくわね。", "step": 4},
+        {"who": "metan", "text": "情報は、2026年10月7日時点のものよ。"}
+      ]
+    },
+    {
+      "id": "ch1",
+      "hide_header": true,
+      "se": "jean",
+      "flash": true,
+      "board": {"layout": "chapter", "num": "その1", "heading": "誰と誰が戦っているの？"},
+      "lines": [
+        {"who": "zundamon", "text": "まずは、登場する国を整理してほしいのだ。", "face": "normal", "pose": "point_up"}
+      ]
+    },
+    {
+      "id": "map",
+      "chapter": "① 対立の構図",
+      "board": {"title": "対立の構図", "html_file": "boards/map.html"},
+      "lines": [
+        {"who": "metan", "text": "地図で見てみましょう。"},
+        {"who": "metan", "text": "一方は、アメリカとイスラエル。イスラエルはここね。", "step": 1, "se": "pop"},
+        {"who": "metan", "text": "アメリカは、中東の各地に基地を置いているわ。"},
+        {"who": "metan", "text": "もう一方がイラン。人口は約9千万人の大きな国よ。", "step": 2, "se": "pop"},
+        {"who": "zundamon", "text": "イランは、1か国だけで戦っているのだ？", "face": "think", "pose": "think"},
+        {"who": "metan", "text": "いいえ。イランが支援してきた武装組織も加わっているの。", "step": 3, "se": "pop"},
+        {"who": "metan", "text": "レバノンのヒズボラ、イエメンのフーシ派、イラクの民兵組織ね。"},
+        {"who": "zundamon", "text": "あちこちに仲間がいるのだ！", "face": "surprised", "pose": "mouth", "motion": "jump"},
+        {"who": "metan", "text": "サウジアラビアやUAEなど、湾岸の国々も巻き込まれたわ。", "step": 4, "se": "pop"},
+        {"who": "metan", "text": "アメリカ軍の基地があるため、イランの攻撃を受けたの。"},
+        {"who": "metan", "text": "そして、間に入って話をまとめようとしているのが、パキスタンなどよ。", "step": 5, "se": "pop"},
+        {"who": "zundamon", "text": "思ったより、たくさんの国が関わっているのだ。", "face": "normal", "motion": "nod"}
+      ]
+    },
+    {
+      "id": "ch2",
+      "hide_header": true,
+      "se": "jean",
+      "flash": true,
+      "board": {"layout": "chapter", "num": "その2", "heading": "なぜ始まったの？"},
+      "lines": [
+        {"who": "zundamon", "text": "そもそも、どうして仲が悪いのだ？", "face": "think", "pose": "think"}
+      ]
+    },
+    {
+      "id": "history",
+      "chapter": "② なぜ始まった？",
+      "board": {"title": "47年続く対立", "html_file": "boards/history.html"},
+      "lines": [
+        {"who": "metan", "text": "始まりは、1979年のイラン革命までさかのぼるわ。", "step": 1, "se": "pop"},
+        {"who": "metan", "text": "親米の王様の政府が倒れて、イスラム教の指導者が治める国になったの。"},
+        {"who": "metan", "text": "新しい政府はアメリカと国交を断ち、イスラエルも国として認めなかったわ。"},
+        {"who": "zundamon", "text": "そこから、47年も対立しているのだ……", "face": "tired", "motion": "shrink"},
+        {"who": "metan", "text": "大きな争点になったのが、イランの核開発よ。", "step": 2, "se": "pop"},
+        {"who": "metan", "text": "イランは「発電のため」と説明してきたわ。"},
+        {"who": "metan", "text": "でもアメリカやイスラエルは、核兵器を作る気だと疑ってきたの。"},
+        {"who": "metan", "text": "2015年には、核開発を制限する代わりに制裁を解く「核合意」ができたわ。", "step": 3, "se": "pop"},
+        {"who": "metan", "text": "でも2018年、トランプ政権1期目のアメリカが、核合意から抜けたの。", "step": 4, "se": "pop"},
+        {"who": "zundamon", "text": "せっかくの約束が、なくなっちゃったのだ？", "face": "surprised", "pose": "mouth"},
+        {"who": "metan", "text": "ええ。制裁が戻り、イランも核開発を再び進めたわ。", "face": "think", "pose": "think"}
+      ]
+    },
+    {
+      "id": "prewar",
+      "chapter": "② なぜ始まった？",
+      "board": {"title": "開戦までの1年", "html_file": "boards/prewar.html"},
+      "lines": [
+        {"who": "metan", "text": "そして、ここ数年で対立が一気に激しくなったの。", "face": "normal", "pose": "normal"},
+        {"who": "metan", "text": "2023年にガザで戦争が始まり、イスラエルと親イラン勢力の衝突が広がったわ。", "step": 1, "se": "pop"},
+        {"who": "metan", "text": "2025年6月には、イスラエルがイランの核施設などを攻撃したの。", "step": 2, "se": "pop"},
+        {"who": "metan", "text": "アメリカも爆撃に加わって、12日間で停戦。これが「12日間戦争」よ。"},
+        {"who": "zundamon", "text": "去年も戦っていたのだ！？", "face": "surprised", "motion": "jump", "pose": "mouth"},
+        {"who": "metan", "text": "2025年の暮れからは、イラン国内で大規模な反政府デモが起きたわ。", "step": 3, "se": "pop"},
+        {"who": "metan", "text": "治安部隊の発砲で、少なくとも数千人が亡くなったと報じられているの。"},
+        {"who": "metan", "text": "2026年に入ると、アメリカは中東に大部隊を集めながら、核交渉も続けたわ。", "step": 4, "se": "pop"},
+        {"who": "metan", "text": "2月26日の協議では、「来週また話し合う」ことになっていたの。"},
+        {"who": "zundamon", "text": "じゃあ、話し合いで解決しそうだったのだ？", "face": "think", "pose": "think"},
+        {"who": "metan", "text": "……ところが、その2日後に戦争が始まったの。", "step": 5, "se": "doon", "face": "think", "pose": "think"}
+      ]
+    },
+    {
+      "id": "outbreak",
+      "chapter": "② なぜ始まった？",
+      "board": {"title": "2026年2月28日 開戦", "html_file": "boards/outbreak.html"},
+      "lines": [
+        {"who": "metan", "text": "2月28日、アメリカとイスラエルが、イラン全土を一斉に空爆したわ。", "step": 1, "se": "pop", "face": "normal", "pose": "normal"},
+        {"who": "metan", "text": "最初の攻撃で、最高指導者のハメネイ師や、政府の幹部が多数亡くなったの。"},
+        {"who": "zundamon", "text": "国のトップが、いきなり……！どうして攻撃したのだ？", "face": "surprised", "pose": "mouth"},
+        {"who": "metan", "text": "アメリカが挙げた主な理由は、3つあるわ。", "step": 2},
+        {"who": "metan", "text": "1つ目は、イランに核兵器を持たせないこと。", "step": 3, "se": "pop"},
+        {"who": "metan", "text": "2つ目は、イランが中東の武装組織を支援してきたこと。", "step": 4, "se": "pop"},
+        {"who": "metan", "text": "3つ目は、デモの弾圧などを挙げて、今の体制を変えることよ。", "step": 5, "se": "pop"},
+        {"who": "metan", "text": "イスラエルは、自国への脅威を取り除く「先制攻撃」だと説明したわ。"},
+        {"who": "zundamon", "text": "イランは、本当に核兵器を作っていたのだ？", "face": "think", "pose": "think"},
+        {"who": "metan", "text": "IAEAは、兵器を作っている証拠は見つけていないの。", "step": 6, "se": "pop"},
+        {"who": "metan", "text": "ただ、イランが査察を制限していて、確かめきれない状態でもあったわ。"},
+        {"who": "zundamon", "text": "はっきりしないまま、始まってしまったのだ……", "face": "cry", "motion": "shrink"}
+      ]
+    },
+    {
+      "id": "spread",
+      "chapter": "② なぜ始まった？",
+      "board": {"title": "中東全体に広がった戦争", "html_file": "boards/spread.html"},
+      "lines": [
+        {"who": "metan", "text": "イランはすぐに反撃したわ。", "face": "normal"},
+        {"who": "metan", "text": "イスラエルだけでなく、湾岸の国々にある米軍基地にもミサイルを撃ったの。", "step": 1, "se": "pop"},
+        {"who": "metan", "text": "さらに、原油の通り道のホルムズ海峡を、事実上ふさいだわ。", "step": 2, "se": "pop"},
+        {"who": "zundamon", "text": "ホルムズ海峡って、そんなに大事なのだ？", "face": "think", "pose": "think"},
+        {"who": "metan", "text": "世界の石油と天然ガスの、約5分の1が通る海の道よ。"},
+        {"who": "metan", "text": "3月2日には、レバノンのヒズボラもイスラエルを攻撃したわ。", "step": 3, "se": "pop"},
+        {"who": "metan", "text": "イスラエルはレバノン南部に地上部隊を送り、戦いはレバノンにも広がったの。"},
+        {"who": "metan", "text": "3月8日、ハメネイ師の次男モジタバ師が、新しい最高指導者になったわ。", "step": 4, "se": "pop"},
+        {"who": "zundamon", "text": "ここまでが「なぜ始まったか」なのだ？", "face": "normal", "pose": "point"},
+        {"who": "metan", "text": "ええ。長い対立と核の問題があり、交渉の途中で攻撃が始まった。", "step": 5, "se": "pop"},
+        {"who": "metan", "text": "それに反撃が重なって、周りの国まで広がった、という流れね。"}
+      ]
+    },
+    {
+      "id": "ch3",
+      "hide_header": true,
+      "se": "jean",
+      "flash": true,
+      "board": {"layout": "chapter", "num": "その3", "heading": "停戦と崩壊の8か月"},
+      "lines": [
+        {"who": "zundamon", "text": "こんなに広がって、止める人はいなかったのだ？", "face": "think", "pose": "think"}
+      ]
+    },
+    {
+      "id": "truce",
+      "chapter": "③ 停戦と崩壊",
+      "board": {"title": "4月〜6月：停戦と「二重封鎖」", "html_file": "boards/truce.html"},
+      "lines": [
+        {"who": "metan", "text": "4月8日、パキスタンの仲介で、2週間の停戦が決まったわ。", "step": 1, "se": "pop"},
+        {"who": "metan", "text": "でも、レバノンが停戦に含まれるかで、言い分が食い違ったの。"},
+        {"who": "metan", "text": "イスラエルはレバノンを大規模に攻撃し、イランは海峡を再び止めたわ。"},
+        {"who": "metan", "text": "4月11日からの話し合いは21時間続いたけど、合意できなかったの。", "step": 2, "se": "pop"},
+        {"who": "metan", "text": "するとアメリカは、イランの港に出入りする船を止める、海上封鎖を始めたわ。", "step": 3, "se": "pop"},
+        {"who": "zundamon", "text": "イランは海峡を止めて、アメリカはイランの港を止めたのだ？", "face": "think", "pose": "think"},
+        {"who": "metan", "text": "そう。「二重封鎖」と呼ばれる状態ね。"},
+        {"who": "metan", "text": "6月17日、両国の大統領が「イスラマバード覚書」に署名したわ。", "step": 4, "se": "pop"},
+        {"who": "metan", "text": "60日間の停戦延長と、海峡の再開、封鎖の解除が決まったの。"},
+        {"who": "zundamon", "text": "やったのだ！これで終わりなのだ！", "face": "happy", "eyes": "smile", "motion": "jump", "pose": "raise"},
+        {"who": "metan", "text": "……ただ、核の問題は「60日の間に話し合う」と先送りされていたの。", "step": 5, "face": "think", "pose": "think"}
+      ]
+    },
+    {
+      "id": "collapse",
+      "chapter": "③ 停戦と崩壊",
+      "board": {"title": "7月〜10月：崩れた約束", "html_file": "boards/collapse.html"},
+      "lines": [
+        {"who": "metan", "text": "7月7日、イランがホルムズ海峡でタンカー3隻を攻撃したわ。", "step": 1, "se": "pop", "face": "normal", "pose": "normal"},
+        {"who": "metan", "text": "アメリカはすぐにイランを空爆し、覚書は事実上崩れてしまったの。"},
+        {"who": "metan", "text": "海上封鎖も再開され、8月17日には60日の期限も過ぎたわ。", "step": 2, "se": "pop"},
+        {"who": "zundamon", "text": "せっかくの約束が、また……", "face": "cry", "motion": "shrink"},
+        {"who": "metan", "text": "9月には、イエメンのフーシ派が、紅海の入り口の海峡の周りを押さえたの。", "step": 3, "se": "pop"},
+        {"who": "metan", "text": "サウジの船を狙うと宣言して、原油は1バレル100ドルを超えたわ。"},
+        {"who": "metan", "text": "そして10月、アメリカは3隻目の空母を中東に向かわせているわ。", "step": 4, "se": "pop"},
+        {"who": "metan", "text": "イランは「7つの条件を満たすまで、海峡は開けない」と言っているの。"},
+        {"who": "zundamon", "text": "結局、今も戦争中ってことなのだ……", "face": "tired", "motion": "shrink"},
+        {"who": "metan", "text": "ええ。ただ、カタールを通じたやり取りは、今も続いているわ。", "step": 5}
+      ]
+    },
+    {
+      "id": "ch4",
+      "hide_header": true,
+      "se": "jean",
+      "flash": true,
+      "board": {"layout": "chapter", "num": "その4", "heading": "誰が悪いの？"},
+      "lines": [
+        {"who": "zundamon", "text": "で、結局どっちが悪いのだ？", "face": "think", "pose": "think"}
+      ]
+    },
+    {
+      "id": "blame",
+      "chapter": "④ 誰が悪い？",
+      "board": {"title": "第三者はどう評価している？", "html_file": "boards/blame.html"},
+      "lines": [
+        {"who": "metan", "text": "気になるわよね。でも、一言で決めるのは難しいの。", "face": "think", "pose": "think"},
+        {"who": "metan", "text": "そこで、国連が両方の側をどう評価したかを並べてみるわ。", "face": "normal", "pose": "normal"},
+        {"who": "metan", "text": "まず、開戦の日の国連事務総長の声明よ。", "step": 1, "se": "pop"},
+        {"who": "metan", "text": "アメリカとイスラエルの攻撃は、国連憲章などに違反すると非難したわ。", "step": 2},
+        {"who": "metan", "text": "同時に、イランの周りの国々への反撃も、主権を侵すと非難したの。", "step": 3},
+        {"who": "zundamon", "text": "両方とも、非難されているのだ。", "face": "surprised", "pose": "mouth"},
+        {"who": "metan", "text": "9月には、国連が設けた調査団が報告書を出したわ。", "step": 4, "se": "pop"},
+        {"who": "metan", "text": "アメリカ軍による学校などへの攻撃に、戦争犯罪の疑いがあるとしたの。", "step": 5},
+        {"who": "metan", "text": "イランのデモ弾圧には、人道に対する罪の疑いがあるとしたわ。", "step": 6},
+        {"who": "metan", "text": "一方で、当事者はどちらも「自分たちは自衛している」と説明しているの。", "step": 7, "se": "pop"},
+        {"who": "metan", "text": "アメリカ政府は、調査団の報告を否定しているわ。"},
+        {"who": "zundamon", "text": "どっちの側にも、問題だと言われていることがあるのだ……", "face": "normal", "motion": "nod"},
+        {"who": "metan", "text": "そう。どの立場から見るかで、印象はかなり変わるの。", "step": 8, "se": "pop"},
+        {"who": "metan", "text": "だからニュースを見るときは、「誰の発表か」を気にするといいわ。"},
+        {"who": "zundamon", "text": "発表した人の立場も、一緒に見るのだ！", "face": "normal", "pose": "point_up", "motion": "nod"}
+      ]
+    },
+    {
+      "id": "ch5",
+      "hide_header": true,
+      "se": "jean",
+      "flash": true,
+      "board": {"layout": "chapter", "num": "その5", "heading": "なぜ終わらないの？"},
+      "lines": [
+        {"who": "zundamon", "text": "最後の疑問なのだ。どうして終わらないのだ？", "face": "think", "pose": "think"}
+      ]
+    },
+    {
+      "id": "why1",
+      "chapter": "⑤ なぜ終わらない？",
+      "board": {"title": "理由1：先に求めるものが違う", "html_file": "boards/why1.html"},
+      "lines": [
+        {"who": "metan", "text": "理由は、大きく4つあるわ。1つ目は、求めるものの順番が違うこと。"},
+        {"who": "metan", "text": "アメリカがまず求めているのは、核の問題の解決よ。", "step": 1, "se": "pop"},
+        {"who": "metan", "text": "ウランの濃縮をやめさせて、核兵器への道を断ちたいの。"},
+        {"who": "metan", "text": "イランが先に求めているのは、封鎖の解除と、凍結された資産の返還。", "step": 2, "se": "pop"},
+        {"who": "metan", "text": "それに、レバノンも含めた、すべての戦線での停戦よ。"},
+        {"who": "zundamon", "text": "お互いに「そっちが先」って言っているのだ？", "face": "think", "pose": "think"},
+        {"who": "metan", "text": "そういうこと。順番が決まらないと、話が前に進まないの。", "step": 3, "se": "pop"}
+      ]
+    },
+    {
+      "id": "why2",
+      "chapter": "⑤ なぜ終わらない？",
+      "board": {"title": "理由2：お互いに「封鎖」を続けている", "html_file": "boards/why2.html"},
+      "lines": [
+        {"who": "metan", "text": "2つ目は、両方が「封鎖」という切り札を持っていることよ。"},
+        {"who": "metan", "text": "イランは、ホルムズ海峡を通る船を止めているわ。", "step": 1, "se": "pop"},
+        {"who": "metan", "text": "アメリカは、イランの港に出入りする船を止めているの。", "step": 2, "se": "pop"},
+        {"who": "metan", "text": "そのため、イランの石油の輸出は、ほぼゼロになったと伝えられているわ。"},
+        {"who": "zundamon", "text": "それなら、イランはすぐに困るのだ？", "face": "think", "pose": "think"},
+        {"who": "metan", "text": "苦しいはずよ。でも海峡が止まると、世界中で石油の値段が上がるの。", "step": 3, "se": "pop"},
+        {"who": "metan", "text": "どちらも「相手が先に困って譲る」と考えて、我慢比べになっているわ。"},
+        {"who": "zundamon", "text": "我慢比べの間も、みんなが困るのだ……", "face": "cry", "motion": "shrink"}
+      ]
+    },
+    {
+      "id": "why34",
+      "chapter": "⑤ なぜ終わらない？",
+      "board": {"title": "理由3・4：信用とまとめ役", "html_file": "boards/why34.html"},
+      "lines": [
+        {"who": "metan", "text": "3つ目は、お互いに相手の約束を信用していないことよ。", "step": 1, "se": "pop"},
+        {"who": "metan", "text": "イランから見ると、アメリカは核合意から抜け、交渉中に攻撃してきた相手。"},
+        {"who": "metan", "text": "アメリカから見ると、イランは停戦中にタンカーを攻撃した相手なの。"},
+        {"who": "zundamon", "text": "どっちも「信じられない」と思っているのだ……", "face": "tired"},
+        {"who": "metan", "text": "4つ目は、決める人がまとまっていないことね。", "step": 2, "se": "pop"},
+        {"who": "metan", "text": "イスラエルは覚書の当事者ではなく、レバノンへの攻撃を続けているわ。"},
+        {"who": "metan", "text": "イランの側も、軍の強硬派が強い力を持っていると言われているの。"},
+        {"who": "metan", "text": "7月のタンカー攻撃も、強硬派の幹部の判断だったと報じられているわ。"},
+        {"who": "zundamon", "text": "合意しても、守られるかわからないってことなのだ。", "face": "think", "pose": "think"}
+      ]
+    },
+    {
+      "id": "ch6",
+      "hide_header": true,
+      "se": "jean",
+      "flash": true,
+      "board": {"layout": "chapter", "num": "その6", "heading": "日本への影響"},
+      "lines": [
+        {"who": "zundamon", "text": "ところで、日本にも関係がある話なのだ？", "face": "think", "pose": "think"}
+      ]
+    },
+    {
+      "id": "japan",
+      "chapter": "⑥ 日本への影響",
+      "board": {"title": "日本への影響", "html_file": "boards/japan.html"},
+      "lines": [
+        {"who": "metan", "text": "大ありよ。日本は、原油の9割以上を中東から輸入しているの。", "step": 1, "se": "pop"},
+        {"who": "metan", "text": "その多くが、ホルムズ海峡を通って運ばれてくるわ。"},
+        {"who": "metan", "text": "3月16日、ガソリンの全国平均は1リットル190.8円と、過去最高になったの。", "step": 2, "se": "pop"},
+        {"who": "metan", "text": "今は政府の補助金で、170円前後に抑えているわ。", "step": 3, "se": "pop"},
+        {"who": "metan", "text": "10月8日からの補助は、1リットルあたり42.4円よ。"},
+        {"who": "zundamon", "text": "補助がなかったら、もっと高いってことなのだ！", "face": "surprised", "motion": "jump", "pose": "mouth"},
+        {"who": "metan", "text": "ええ。天然ガスの輸送も滞っていて、電気代や物の値段にも影響しているわ。", "step": 4}
+      ]
+    },
+    {
+      "id": "summary",
+      "chapter": "まとめ",
+      "board": {"layout": "bullets", "title": "まとめ", "items": [
+        {"text": "**なぜ始まった？**", "sub": "47年の対立と核の問題。交渉の途中で攻撃が始まった"},
+        {"text": "**誰が悪い？**", "sub": "国連は、両方の側の行動を問題視している"},
+        {"text": "**なぜ終わらない？**", "sub": "要求の順番・封鎖の我慢比べ・不信・まとめ役の不在"},
+        {"text": "**これから**", "sub": "大規模な攻撃の再開か、カタール経由の交渉か"}
+      ]},
+      "lines": [
+        {"who": "zundamon", "text": "最後に、まとめるのだ！", "face": "normal", "pose": "point_up"},
+        {"who": "metan", "text": "なぜ始まったのか。長い対立と核の問題があり、交渉の途中で攻撃が始まったわ。", "step": 1, "se": "pop"},
+        {"who": "zundamon", "text": "誰が悪いのか。国連は、両方の側の行動を問題だと言っているのだ。", "step": 2, "se": "pop", "pose": "point"},
+        {"who": "metan", "text": "なぜ終わらないのか。要求の順番、封鎖の我慢比べ、不信、まとめ役の不在ね。", "step": 3, "se": "pop"},
+        {"who": "zundamon", "text": "これからどうなるかは、アメリカとイランの次の一手しだいなのだ。", "step": 4, "se": "pop", "pose": "point"},
+        {"who": "metan", "text": "状況は毎日変わるから、最新のニュースもあわせて確かめてね。"}
+      ]
+    },
+    {
+      "id": "sources",
+      "chapter": "まとめ",
+      "board": {"title": "参考にした資料", "html_file": "boards/sources.html"},
+      "lines": [
+        {"who": "metan", "text": "参考にした資料は、こちらよ。", "face": "normal", "pose": "present"},
+        {"who": "zundamon", "text": "気になった人は、自分でも確かめてみてほしいのだ。", "face": "normal", "pose": "point"}
+      ]
+    },
+    {
+      "id": "ending",
+      "hide_header": true,
+      "board": {"html_file": "boards/ending.html"},
+      "lines": [
+        {"who": "zundamon", "text": "今日はここまでなのだ！ご視聴ありがとうなのだ！", "face": "happy", "eyes": "smile", "motion": "jump", "se": "chanchan", "pose": "raise"},
+        {"who": "metan", "text": "高評価とチャンネル登録も、よろしくね。", "face": "happy", "pose": "present"}
+      ]
+    }
+  ]
+}

@@ -8,9 +8,14 @@ def test_prompt_puts_quality_and_rating_before_character_and_tags():
     assert p == "masterpiece, best quality, score_7, safe, tohoku kiritan, voiceroid, smile, holding food"
 
 
-def test_prompt_rejects_non_safe_rating():
+def test_prompt_rejects_unknown_rating():
     with pytest.raises(ValueError):
         compose_prompt(["x"], ["y"], rating="nsfw")
+
+
+def test_prompt_accepts_adult_rating():
+    p = compose_prompt(["original character"], ["smile"], rating="adult")
+    assert p.startswith("masterpiece, best quality, score_7, adult, original character")
 
 
 def test_graph_wires_anima_loaders_and_sampler():
@@ -28,12 +33,31 @@ def test_graph_wires_anima_loaders_and_sampler():
     assert by_type["SaveImage"]["inputs"]["filename_prefix"] == "zv/key"
 
 
-def test_negative_prompt_always_blocks_adult_ratings():
+def test_safe_rating_negative_blocks_adult_tags():
     g = anima_graph("pos", "lowres", unet="u", text_encoder="t", vae="v", width=1024, height=1024, seed=1)
     texts = [n["inputs"]["text"] for n in g.values() if n["class_type"] == "CLIPTextEncode"]
     neg = [t for t in texts if t != "pos"][0]
     for word in ("nsfw", "explicit", "sensitive"):
         assert word in neg
+
+
+def test_adult_rating_negative_keeps_adult_tags_out():
+    g = anima_graph("pos", "lowres", unet="u", text_encoder="t", vae="v", width=1024, height=1024, seed=1,
+                    rating="adult")
+    texts = [n["inputs"]["text"] for n in g.values() if n["class_type"] == "CLIPTextEncode"]
+    neg = [t for t in texts if t != "pos"][0]
+    for word in ("nsfw", "explicit", "nude"):
+        assert word not in neg
+
+
+def test_negative_prompt_always_blocks_photorealistic():
+    for rating in ("safe", "adult"):
+        g = anima_graph("pos", "lowres", unet="u", text_encoder="t", vae="v", width=1024, height=1024,
+                        seed=1, rating=rating)
+        texts = [n["inputs"]["text"] for n in g.values() if n["class_type"] == "CLIPTextEncode"]
+        neg = [t for t in texts if t != "pos"][0]
+        for word in ("photorealistic", "photo", "photograph"):
+            assert word in neg
 
 
 def test_h3_frames_snap_to_17k_plus_5_grid():

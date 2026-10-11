@@ -6,7 +6,7 @@
 --url の ComfyUI が応答しなければ、--comfy-root（または環境変数 ZVIDEO_ANIMA_COMFY_ROOT）の
 ポータブル版を裏で起動し、終わったら自分で起こしたものだけを止める。
 生成画像は spec と同じフォルダへ <名前>.png で保存する。
-作例は全年齢に固定（zvideo.comfy がレーティング safe 以外を拒否し、否定プロンプトに成人向けタグを足す）。
+レーティングは既定で safe。架空の成人キャラに限り spec の画像の "rating": "adult" を受け付ける（zvideo.comfy が検査し、safe には成人向けタグを、全件には実写系タグを否定プロンプトに足す）。
 """
 import argparse
 import json
@@ -45,14 +45,16 @@ def main(argv=None):
         for name, img in spec["images"].items():
             if a.only and name not in a.only:
                 continue
-            positive = compose_prompt(img["characters"], img["tags"], series=img.get("series", []))
+            positive = compose_prompt(img["characters"], img["tags"], series=img.get("series", []),
+                                      rating=img.get("rating", "safe"))
             if img.get("sentence"):
                 positive += ". " + img["sentence"]
             w, h = img.get("size", [1344, 768])
             graph = anima_graph(positive, img.get("negative", ", ".join(spec.get("negative", []))),
                                 unet=spec["unet"], text_encoder=spec["text_encoder"], vae=spec["vae"],
                                 width=w, height=h, seed=img["seed"], steps=spec.get("steps", 28),
-                                cfg=spec.get("cfg", 4.5), prefix=f"zundamonVideo/{name}")
+                                cfg=spec.get("cfg", 4.5), prefix=f"zundamonVideo/{name}",
+                                rating=img.get("rating", "safe"))
             with step("anima.generate", {"name": name, "seed": img["seed"], "size": [w, h], "prompt": positive}) as s:
                 files = api.run(graph)
                 dest = spec_path.parent / f"{name}.png"

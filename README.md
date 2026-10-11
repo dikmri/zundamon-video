@@ -118,7 +118,7 @@ Claude はスキルの手順に沿って、題材を調べ、`projects/<名前>/
 
 - **画像（WAI-Anima / Anima 系）**: `uv run python tools/anima_gen.py projects/<名前>/media/anima_spec.json --comfy-root <ポータブル版 ComfyUI>`
   - モデル: [WAI-ANIMA](https://civitai.com/models/2544636)（本体・専用テキストエンコーダー・VAE の3ファイル）
-  - 作例は全年齢に固定しています（レーティングは safe のみ受け付け、否定プロンプトに成人向けタグを必ず加えます）。
+  - レーティングは既定で safe。架空の成人キャラに限り spec の画像に `"rating": "adult"` を付けて性的表現を許す。実写風・実在人物の写真的な性描写（フェイクポルノ）は受け付けない（否定プロンプトに常時 photorealistic 系タグを足す）。
 - **動画（MiniMax H3）**: H3 の入った ComfyUI（0.30 以降）を起動して `uv run python tools/h3_gen.py --image <最初のコマ> --prompt-file <txt> --out <mp4> --url <ComfyUI の URL>`
   - モデル: Hugging Face [Comfy-Org/MiniMax-H3](https://huggingface.co/Comfy-Org/MiniMax-H3)（本体・テキストエンコーダー・映像/音声 VAE・高速化 LoRA、計 約45GB）
   - RTX 5060 Ti 16GB / メモリ 64GB で、480p・5秒が約4分でした。
